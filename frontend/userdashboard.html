@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evergreen Financial - User Dashboard</title>
+  <link rel="stylesheet" href="userdashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <section class="nav-bar">
+      <div class="hero-image">
+        <img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="200" height="200">
+      </div>
+      <div class="nav">
+        <ul>
+          <li><a href="user_dashboard.html">Dashboard</a></li>
+          <li><a href="accounts.html">Accounts</a></li>
+          <li><a href="transfer.html">Transfer</a></li>
+          <li><a href="payments.html">Payments</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </div>
+    </section>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main>
+    <section class="user-overview">
+      <h2>Welcome back, John Doe</h2>
+      <p>Your financial summary at a glance.</p>
+
+      <div class="cards-container">
+        <div class="card">
+          <i class="fa fa-wallet"></i>
+          <h3>Checking Balance</h3>
+          <p>$12,450.00</p>
+        </div>
+        <div class="card">
+          <i class="fa fa-piggy-bank"></i>
+          <h3>Savings Balance</h3>
+          <p>$8,320.00</p>
+        </div>
+        <div class="card">
+          <i class="fa fa-credit-card"></i>
+          <h3>Credit Card</h3>
+          <p>$1,250.00 due</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-actions">
+      <h3>Quick Actions</h3>
+      <div class="actions-grid">
+        <a href="transfer.html" class="action-btn"><i class="fa fa-exchange-alt"></i> Transfer Funds</a>
+        <a href="payments.html" class="action-btn"><i class="fa fa-file-invoice"></i> Pay Bills</a>
+        <a href="accounts.html" class="action-btn"><i class="fa fa-university"></i> View Accounts</a>
+      </div>
+    </section>
+
+    <section class="recent-transactions">
+      <h3>Recent Transactions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Grocery Store</td>
+            <td>Debit</td>
+            <td>$150.00</td>
+            <td>Completed</td>
+            <td>2025-09-14</td>
+          </tr>
+          <tr>
+            <td>Salary Deposit</td>
+            <td>Credit</td>
+            <td>$2,500.00</td>
+            <td>Completed</td>
+            <td>2025-09-13</td>
+          </tr>
+          <tr>
+            <td>Utility Bill</td>
+            <td>Debit</td>
+            <td>$80.00</td>
+            <td>Pending</td>
+            <td>2025-09-12</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+        <div class="footer-container">
+            <h4>Contact Us</h4>
+            <p id="email">Email: <a href="mailto:evergreen@support.com">evergreen@support.com</a>
+            <p>&copy; 2025 Evergreen Financial Bank. All rights reserved.</p>
+            <nav>
+                <ul>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="social-media">
+            <a href="facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>        
+    </footer>
+</body>
+</html>

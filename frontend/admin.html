@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evergreen Financial Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <section class="nav-bar">
+      <div class="hero-image">
+        <img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="200" height="200">
+      </div>
+      <div class="nav">
+        <ul>
+          <li><a href="admin_dashboard.html">Dashboard</a></li>
+          <li><a href="manage_users.html">Users</a></li>
+          <li><a href="transactions.html">Transactions</a></li>
+          <li><a href="reports.html">Reports</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="logout.html">Logout</a></li>
+        </ul>
+      </div>
+    </section>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <section class="admin-overview">
+      <h2>Welcome, Admin</h2>
+      <p>Quick overview of the bank’s system status.</p>
+
+      <div class="cards-container">
+        <div class="card">
+          <i class="fa fa-users"></i>
+          <h3>Total Users</h3>
+          <p>12,540</p>
+        </div>
+        <div class="card">
+          <i class="fa fa-exchange-alt"></i>
+          <h3>Transactions Today</h3>
+          <p>1,245</p>
+        </div>
+        <div class="card">
+          <i class="fa fa-dollar-sign"></i>
+          <h3>Total Balance</h3>
+          <p>$82,450,000</p>
+        </div>
+        <div class="card">
+          <i class="fa fa-bell"></i>
+          <h3>Alerts</h3>
+          <p>5 pending</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-activity">
+      <h3>Recent User Activity</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Transaction</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jane Doe</td>
+            <td>Transfer</td>
+            <td>$2,500</td>
+            <td>Completed</td>
+            <td>2025-09-15</td>
+          </tr>
+          <tr>
+            <td>John Smith</td>
+            <td>Deposit</td>
+            <td>$5,000</td>
+            <td>Pending</td>
+            <td>2025-09-15</td>
+          </tr>
+          <tr>
+            <td>Amina Ali</td>
+            <td>Withdrawal</td>
+            <td>$750</td>
+            <td>Completed</td>
+            <td>2025-09-14</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <p>&copy; 2025 Evergreen Financial Bank. Admin Portal.</p>
+    </div>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

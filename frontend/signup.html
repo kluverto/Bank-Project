@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-up_EvergreenFinancial</title>
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <section class="nav-bar">
+            <div class="hero-image">
+              <a href="index.html"><img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="300px", height="300px"></a>
+            </div>
+            <div class="welcome-message">
+                <h1>Your future starts here — open your account in minutes, enjoy benefits for years.</h1>
+            </div>
+            <div class="nav">
+             <ul>
+                <li><a href="signin.html">Sign-in</a></li>
+                <li><a href="">About us</a></li>
+                <li><a href="">Services</a></li>
+                <li><a href="">Support</a></li>
+              </ul>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <section class="signup-form">
+            <h1>Join Evergreen Financial Bank</h1>
+            <p>Banking without compromise — your gateway to prestige, security, and growth.</p>
+            <div class="neat">
+                <form class="form" method="post">
+                    <label for="First name">First name:</label>
+                    <input type="text" id="First name" name="First name" required placeholder="Enter your first name">
+                    <br>
+                    <label for="Second name">Second name:</label>
+                    <input type="text" id="Second name" name="Second name" required placeholder="Enter your second name">
+                    <br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email eg:john@gmail.com">
+                    <br>
+                    <label for="phone-number">Phone Number:</label>
+                    <input type="tel" id="phone-number" name="phone-number" required placeholder="Enter your phone number eg: 123-456-7890">
+                    <br>
+                    <label for ="date-of-birth">Date of Birth:</label>
+                    <input type="date" id="date-of-birth" name="date-of-birth" required>
+                    <br>
+                    <div class="password-container">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required><span><i id="toggle" class="fa-solid fa-eye"></i></span>
+                    <br>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" required><span><i id="ctoggle" class="fa-solid fa-eye"></i></span>
+                    <br>
+                    </div>
+                    <button type="submit" class="btn"><span>Sign Up</span></button>
+               
+                    <div class="agreement">
+                        <p>By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.</p>
+                    </div>
+             </form>
+           </div>  
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <h4>Contact Us</h4>
+            <p id="email">Email: <a href="mailto:evergreen@support.com">evergreen@support.com</a>
+            <p>&copy; 2023 Evergreen Financial Bank. All rights reserved.</p>
+            <nav>
+                <ul>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="social-media">
+            <a href="facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>    
+    </footer>
+    <script src="signup.js"></script>
+</body>
+</html>
