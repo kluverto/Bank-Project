@@ -12,7 +12,23 @@ togglePassword.addEventListener("click", () => {
         togglePassword.classList.add("fa-eye");
     }
 
-}); 
+}); document.querySelector(".signin-form").addEventListener(("submit"), async (e) => {
+    e.preventDefault();
+});
+
+const formData = new formData(e.target);
+const data = Object.fromEntries(formData);
+
+const res = await fetch("/sigin", {
+    method: "POST",
+    headers: {"Content-type": "application/json"},
+    body: JSON.stringify(data)
+});
+
+const result = await res.json();
+alert(result.message);
+
+
 
 
 
