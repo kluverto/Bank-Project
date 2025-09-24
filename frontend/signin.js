@@ -1,36 +1,43 @@
-const password= document.getElementById("password");
-const togglePassword = document.getElementById("toggle");
-
-togglePassword.addEventListener("click", () => {
-    if (password.type == "password") {
-        password.type = "text";
-        togglePassword.classList.remove("fa-eye");
-        togglePassword.classList.add("fa-eye-slash");
+document.addEventListener("DOMContentLoaded", () => {
+  const password = document.getElementById("password");
+  const toggle = document.getElementById("toggle");
+  const form = document.querySelector(".signin-form");
+  const logout = document.querySelector(".logout")
+  
+  function togglePassword(input, icon) {
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        password.type = "password";
-        togglePassword.classList.remove("fa-eye-slash");
-        togglePassword.classList.add("fa-eye");
+      input.type = "password";
+      icon.classList.replace("fa-eye-slash", "fa-eye");
     }
+  }
 
-}); document.querySelector(".signin-form").addEventListener(("submit"), async (e) => {
+  toggle.addEventListener("click", () => togglePassword(password, toggle));
+
+  
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    const res = await fetch("/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    
+    if (result.role === "admin") {
+      window.location.href = "/admin.html";
+    } else if (result.role === "user"){
+      window.location.href = `/userdashboard.html?email=${encodeURIComponent(data.email)}`;
+    } else{
+      alert("Invalid credentials");
+    }
+  });
 });
-
-const formData = new formData(e.target);
-const data = Object.fromEntries(formData);
-
-const res = await fetch("/sigin", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(data)
-});
-
-const result = await res.json();
-alert(result.message);
-
-
-
-
-
-
-

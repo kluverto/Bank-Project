@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ctoggle.addEventListener("click", () => togglePassword(confirmPassword, ctoggle));
 
   // Form validation
-  form.addEventListener("submit", (event) => {
-    event.preventDefault(); // stop form from submitting by default
+  form.addEventListener("submit", async(e) => {
+    e.preventDefault(); // stop form from submitting by default
 
     const firstName = document.getElementById("First name").value.trim();
     const secondName = document.getElementById("Second name").value.trim();
@@ -50,8 +50,22 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // If everything is valid
-    alert("✅ Sign-up successful! Welcome to Evergreen Financial Bank.");
-    form.reset(); // clear the form
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    const res = await fetch("/signup", {
+      method: "POST",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.success === true) {
+      window.location.href="/signin.html"
+    } else if (result.success === false){
+      alert("Sign-up unsuccessful");
+    };
+
   });
 });
