@@ -78,6 +78,17 @@
         </tbody>
       </table>
     </section>
+    <div id="chatWidget">
+      <div id="chatIcon">💬<span id="newMsgBadge" style="display:none;">1</span></div>
+      <div id="chatWindow">
+        <div id="chatHeader">Support Chat <span id="closeChat" style="float:right;cursor:pointer;">✖</span></div>
+        <div id="messages"></div>
+        <div id="inputContainer">
+        <input type="text" id="messageInput" placeholder="Type a message" />
+        <button id="sendBtn">Send</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -101,59 +112,147 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>        
     </footer>
-    <script>
-          const params = new URLSearchParams(window.location.search);
-          const email = params.get("email");
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
 
-          if (!email) {
-            document.getElementById("profile").innerHTML = "<p>No user email provided.</p>";
+    if (!email) {
+      document.getElementById("profile").innerHTML = "<p>No user email provided.</p>";
+    } else {
+      fetch(`/dashboard/${email}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const profile = data.user;
+
+            // Fill profile info
+            document.querySelector(".user-name").textContent =
+              `${profile.firstname} ${profile.secondname}`;
+            document.querySelector(".user-savings").textContent =
+              `₦${profile.savings_balance}`;
+            document.querySelector(".user-balance").textContent =
+              `₦${profile.account_balance}`;
+            document.querySelector(".user-card").textContent =
+              `₦${profile.card_balance}`;
+            document.querySelector(".user-number").textContent =
+              `${profile.account_number}`;
+
+            // Fill transactions table
+            const tbody = document.querySelector("#transactions tbody");
+            tbody.innerHTML = ""; // clear old rows
+            if (Array.isArray(data.transactions) && data.transactions.length > 0)
+            data.transactions.forEach(tx => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${tx.description}</td>
+                <td>${tx.type}</td>
+                <td>₦${tx.amount}</td>
+                <td>${tx.status}</td>
+                <td><small>${new Date(tx.date).toLocaleString()}</small></td>
+              `;
+              tbody.appendChild(row);
+            });
+
           } else {
-            fetch(`/dashboard/${email}`)
-              .then(res => res.json())
-              .then(data => {
-                if (data.success) {
-                  const profile = data.user;
-
-                  // Fill profile info
-                  document.querySelector(".user-name").textContent =
-                    `${profile.firstname} ${profile.secondname}`;
-                  document.querySelector(".user-savings").textContent =
-                    `₦${profile.savings_balance}`;
-                  document.querySelector(".user-balance").textContent =
-                    `₦${profile.account_balance}`;
-                  document.querySelector(".user-card").textContent =
-                    `₦${profile.card_balance}`;
-                  document.querySelector(".user-number").textContent =
-                    `${profile.account_number}`;
-
-                  // Fill transactions table
-                  const tbody = document.querySelector("#transactions tbody");
-                  tbody.innerHTML = ""; // clear old rows
-                  if (Array.isArray(data.transactions) && data.transactions.length > 0)
-                  data.transactions.forEach(tx => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                      <td>${tx.description}</td>
-                      <td>${tx.type}</td>
-                      <td>₦${tx.amount}</td>
-                      <td>${tx.status}</td>
-                      <td>${tx.date}</td>
-                    `;
-                    tbody.appendChild(row);
-                  });
-
-                } else {
-                  document.getElementById("profile").innerHTML =
-                    `<p>Error: ${data.message}</p>`;
-                }
-              })
-              .catch(err => {
-                console.error("Error fetching profile:", err);
-                document.getElementById("profile").innerHTML =
-                  "<p>Failed to load profile data.</p>";
-              });
+            document.getElementById("profile").innerHTML =
+              `<p>Error: ${data.message}</p>`;
           }
-</script>
+        })
+        .catch(err => {
+          console.error("Error fetching profile:", err);
+          document.getElementById("profile").innerHTML =
+            "<p>Failed to load profile data.</p>";
+        });
+    }
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  const socket = io();
+ const chatIcon = document.getElementById("chatIcon");
+  const chatWindow = document.getElementById("chatWindow");
+  const messagesDiv = document.getElementById("messages");
+  const input = document.getElementById("messageInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const badge = document.getElementById("newMsgBadge");
+  const closeChat = document.getElementById("closeChat");
+
+  let chatOpen = false;
+  let unreadCount = 0;
+
+    // Floating chat toggle
+  chatIcon.addEventListener("click", () => {
+chatOpen = !chatOpen;
+if (chatOpen) {
+  chatWindow.classList.add("open");
+  badge.style.display = "none";
+  unreadCount = 0;
+} else {
+  chatWindow.classList.remove("open");
+}
+});
+
+
+// Close button inside chat
+closeChat.addEventListener("click", () => {
+  chatOpen = false;
+  chatWindow.classList.remove("open");
+});
+
+  // Dynamically get user email from URL parameter
+  const userEmail = params.get("email"); 
+
+  async function loadHistory(email) {
+  const res = await fetch(`/chat/${encodeURIComponent(email)}`);
+  const data = await res.json();
+  if (data.success) {
+    messagesDiv.innerHTML = "";
+    data.messages.forEach(msg => {
+      const p = document.createElement("p");
+      p.className = "message " + (msg.sender === "admin" ? "admin" : "user");
+      p.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
+      messagesDiv.appendChild(p);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+}
+
+
+  if (!userEmail) {
+    alert("No email found in URL. Cannot join chat.");
+  } else {
+    loadHistory(userEmail);
+    socket.emit("joinRoom", { email: userEmail, role: "user" });
+  }
+
+  // Receive messages
+  socket.on("chatMessage", (msg) => {
+    const p = document.createElement("p");
+    p.className = "message " + (msg.sender === "admin" ? "admin" : "user");
+    p.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
+    messagesDiv.appendChild(p);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    if(!chatOpen){ unreadCount++; badge.style.display="flex"; badge.textContent=unreadCount;  chatIcon.classList.add("bounce"); 
+    setTimeout(() => {
+      chatIcon.classList.remove("bounce");
+    }, 4000); }
+  });
+
+  // Send messages
+  sendBtn.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+    socket.emit("chatMessage", {
+    text,
+    sender: userEmail,      
+    receiver: "admin"
+  });
+    input.value = "";
+  });
+
+  input.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBtn.click();
+  });
+  </script>
 
 </body>
 </html>

@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const password = document.getElementById("password");
   const toggle = document.getElementById("toggle");
   const form = document.querySelector(".signin-form");
-  const logout = document.querySelector(".logout")
+  const logout = document.querySelector(".logout");
+  const errorMsg = document.getElementById("errorMsg");
   
-  function togglePassword(input, icon) {
+  /*function togglePassword(input, icon) {
     if (input.type === "password") {
       input.type = "text";
       icon.classList.replace("fa-eye", "fa-eye-slash");
@@ -12,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
       input.type = "password";
       icon.classList.replace("fa-eye-slash", "fa-eye");
     }
-  }
+  }*/
 
-  toggle.addEventListener("click", () => togglePassword(password, toggle));
+  //toggle.addEventListener("click", () => togglePassword(password, toggle));
 
   
 
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
+    
 
     const res = await fetch("/signin", {
       method: "POST",
@@ -37,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (result.role === "user"){
       window.location.href = `/userdashboard.html?email=${encodeURIComponent(data.email)}`;
     } else{
-      alert("Invalid credentials");
+      errorMsg.innerHTML = "Invalid Credentials";
     }
   });
 });
