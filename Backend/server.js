@@ -69,11 +69,6 @@ app.get("/", (req, res) => {
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
-    host: process.env.PGHOST,
-    user:process.env.PGUSER,
-    password:process.env.PGPASSWORD,
-    database:process.env.PGDATABASE,
-    port:process.env.PGPORT
 })
 
 // GET chat history for a user
