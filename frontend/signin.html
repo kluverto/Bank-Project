@@ -14,7 +14,6 @@
               <a href="index.html"><img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="300px", height="300px"></a>
             </div>
             <div class="welcome-message">
-                <h1>Welcome to Evergreen Financial...</h1>
             </div>
             <div class="nav">
              <ul>
@@ -30,13 +29,14 @@
     <main>
         <section class="signin-section">
             <h2>Sign In to Your Account</h2>
-            <form action="signin.html" method="get" class="signin-form">
+            <form class="signin-form">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required placeholder="Email"><br>
+                    <label for="email">Username:</label>
+                    <input type="text" id="email" name="email" required placeholder="Enter a valid email"><br>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required placeholder="Enter your password"><span><i id="toggle" class="fa-solid fa-eye"></i></span>
                     <a href="">Forgot password?</a>
+                    <p id="errorMsg" style="color:red"><p>
                     <div class="submit-group">
                     <button type="submit" name='signin_btn' class="submit-btn">Sign In</button>
                     </div>
