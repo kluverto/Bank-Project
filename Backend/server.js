@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
 
 
 app.get("/", (req, res) => {
-    res.send("/index");
+  res.sendFile(path.join(__dirname, "../Frontend", "index.html"));
 });
 
 const db = new Pool({
@@ -494,7 +494,6 @@ app.get("/admin/recent-transactions", async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
-
 
 
 
