@@ -495,9 +495,6 @@ app.get("/admin/recent-transactions", async (req, res) => {
 //server frontend
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend", "index.html"));
-});
 
 //start the server
 server.listen(PORT, () => {
