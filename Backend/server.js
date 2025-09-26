@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
 
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "../frontend", "index.html"));
 });
 
 const db = new Pool({
@@ -493,9 +493,11 @@ app.get("/admin/recent-transactions", async (req, res) => {
 
 
 //server frontend
-app.use(express.static(path.join(__dirname, "../Frontend")));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend", "index.html"));
+});
 
 //start the server
 server.listen(PORT, () => {
