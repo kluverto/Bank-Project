@@ -403,7 +403,7 @@ header {
   z-index: 1000;
   opacity: 0;                 /* for fade/slide effect */
   transform: translateY(20px) scale(0.9);  
-  pointer-events: auto;
+  pointer-events: none;
   transition: opacity 0.7s ease, transform 0.7s ease;  
 }
 

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const logout = document.querySelector(".logout");
   const errorMsg = document.getElementById("errorMsg");
   
-  /*function togglePassword(input, icon) {
+  function togglePassword(input, icon) {
     if (input.type === "password") {
       input.type = "text";
       icon.classList.replace("fa-eye", "fa-eye-slash");
@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
       input.type = "password";
       icon.classList.replace("fa-eye-slash", "fa-eye");
     }
-  }*/
+  }
 
-  //toggle.addEventListener("click", () => togglePassword(password, toggle));
+  toggle.addEventListener("click", () => togglePassword(password, toggle));
 
   
 
