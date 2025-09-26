@@ -495,7 +495,7 @@ app.get("/admin/recent-transactions", async (req, res) => {
 
 
 //server frontend
-app.use(express.static("frontend"));
+app.use(express.static(path.join(__dirname, "Frontend")));
 
 
 
