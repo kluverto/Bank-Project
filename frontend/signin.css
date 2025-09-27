@@ -14,73 +14,48 @@ body {
 
 /* Header */
 header {
-   background: linear-gradient(100deg, #e6f4ea, #86d29a);
-   box-shadow: #004d40 0px 2px 10px;
-   border-bottom-left-radius: 26px;
-   border-bottom-right-radius: 26px;
+  background: linear-gradient(100deg, #e6f4ea, #86d29a);
+  width: 100%;
+  box-shadow: #004d40 0px -2px 10px;
+  border-bottom-right-radius: 26px;
+  border-bottom-left-radius: 26px;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #004d40;
+}
+
+.nav {
+  transition: max-height 0.3s ease;
 }
 
 .nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2em 1.2rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .hero-image img {
-  display: block;
-  border-radius: 10px;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.3s ease;
-}
-
-.hero-image img:hover{
-  transform: scale(1.05);
-}
-
-.nav-bar .welcome-message {
-  font-size: 1.1rem;
-  color: #004d40; /* dark green for headings */
-  width: fit-content;
-  height: 100px;
-  margin-top: 100px;
-  margin-left: 100px;
-  font-weight: bold;
-  align-items: center;
- 
+  object-fit: cover;
+  width: 100%;
+  max-height: 250px;
 }
 
 /* Navigation Menu */
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
-}
-
-.nav ul li p {
-    position: relative;
-    color: #00675b;
-    font-weight: bold;
-    cursor: default
-}
-
-.nav ul li p:after{
-  content: '';
-  position: absolute;
-  text-decoration: underline 2px solid #00bfa5;
-  width: 100%;
-  height: 2px;
-  background: #00bfa5;
-  bottom: -5px;
-  left: 0;
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-.nav ul li p:hover::after {
-  transform: scaleX(1);
-  color: #00bfa5;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .nav ul li a {
@@ -116,29 +91,29 @@ main {
 }
 
 .form-group {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    width: 500px;
-    padding: 30px;
-    margin: 20px auto;
-    align-items: center;
-    box-shadow: #004d40 0px 0px 10px;
-    background: linear-gradient(100deg, #e6f4ea, #86d29a);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 500px;
+  padding: 30px;
+  margin: 20px auto;
+  align-items: center;
+  box-shadow: #004d40 0px 0px 10px;
+  background: linear-gradient(100deg, #e6f4ea, #86d29a);
 }
 
 .form-group label {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #004d40; /* dark green for labels */
-    font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #004d40; /* dark green for labels */
+  font-weight: bold;
 }
 
 .form-group input {
   background: white;
-  width: 60%;
-  padding: 7px;
+  width: 100%;
+  padding: 7px 40px 7px 10px;
   border: 3px solid #2c8467;
   border-radius: 5px;
   font-size: 1rem;
@@ -146,8 +121,8 @@ main {
 }
 
 .form-group input:hover {
-    border-color: #00bfa5;
-    transform: scale(1.02);
+  border-color: #00bfa5;
+  transform: scale(1.02);
 }
 
 .form-group input:focus {
@@ -160,12 +135,28 @@ main {
   color: white;
 }
 
-.form-group span {
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  background: white;
+  width: 100%;
+  padding: 7px 40px 7px 10px; /* extra space on right for icon */
+  border: 3px solid #2c8467;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.input-wrapper span {
   position: absolute;
-  right: 130px;
-  top: 49%;
-  transform: translateY(66%);
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
+  color: #2c8467;
 }
 
 .form-group a {
@@ -248,4 +239,44 @@ footer nav ul {
 .social-media a:hover {
   text-decoration: underline;
   color: #6abab4;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .main-content {
+    flex-direction: column;
+  }
+
+  .welcome-message {
+    font-size: 0.95rem;
+    padding: 15px;
+  }
+
+  .nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    width: 100%;
+  }
+
+  .nav {
+    width: 100%;
+    display: none; /* hidden by default */
+    background: #e6f4ea;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .nav.open {
+    display: block; /* dropdown expands full width */
+  }
+
+  .form-group {
+    width: 80%;
+  }
 }

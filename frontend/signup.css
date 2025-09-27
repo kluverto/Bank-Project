@@ -10,52 +10,55 @@ body {
   background: white; /* light, vibrant background */
   color: rgb(11, 88, 42); /* dark green for text */
   line-height: 1.6;
+  max-width: 100%;
+  overflow-x: hidden;
 }
+
 
 /* Header */
 header {
-   background: linear-gradient(100deg, #e6f4ea, #86d29a);
-  box-shadow: #205241 0px 0px 10px;
-  border-bottom-left-radius: 26px;
+  background: linear-gradient(100deg, #e6f4ea, #86d29a);
+  width: 100%;
+  box-shadow: #004d40 0px -2px 10px;
   border-bottom-right-radius: 26px;
+  border-bottom-left-radius: 26px;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #004d40;
+}
+
+.nav {
+  transition: max-height 0.3s ease;
 }
 
 .nav-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2em 1.2rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .hero-image img {
-  display: block;
-  border-radius: 10px;
-  width: 200px;
-  height: 200px;
-  transition: transform 0.3s ease;
-}
-
-.hero-image img:hover{
-  transform: scale(1.05);
-}
-
-.nav-bar .welcome-message {
-  font-size: 0.7rem;
-  color: #004d40; /* dark green for headings */
-  width: fit-content;
-  height: 100px;
-  margin-top: 100px;
-  margin-left: 100px;
-  font-weight: bold;
-  align-items: center;
- 
+  object-fit: cover;
+  width: 100%;
+  max-height: 250px;
 }
 
 /* Navigation Menu */
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .nav ul li a {
@@ -81,7 +84,6 @@ header {
   transform: scaleX(1);
   color: #00bfa5;
 }
-
 
 /*signup form*/
 
@@ -114,6 +116,7 @@ label{
 
 .signup-form .form{
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   width: 600px;
   gap: 3px;
@@ -338,4 +341,47 @@ footer nav ul {
 .social-media a:hover {
   text-decoration: underline;
   color: #6abab4;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .main-content {
+    flex-direction: column;
+  }
+
+  .welcome-message {
+    font-size: 0.95rem;
+    padding: 15px;
+  }
+
+  .nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    width: 100%;
+  }
+
+  .nav {
+    width: 100%;
+    display: none; /* hidden by default */
+    background: #e6f4ea;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .nav.open {
+    display: block; /* dropdown expands full width */
+  }
+
+  .signup-form {
+    width: 80%;
+  }
+  .signup-form .form {
+    width: 100%;
+  }
 }

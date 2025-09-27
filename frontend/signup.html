@@ -13,8 +13,7 @@
             <div class="hero-image">
               <a href="index.html"><img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="300px", height="300px"></a>
             </div>
-            <div class="welcome-message">
-               
+            <button class="menu-toggle">&#9776;</button>   
             <div class="nav">
              <ul>
                 <li><a href="signin.html">Sign-in</a></li>
@@ -85,6 +84,13 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>    
     </footer>
+        <script>
+            const toggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('.nav');
+            toggle.addEventListener('click', () => {
+                nav.classList.toggle('open');
+            });
+        </script>
     <script src="signup.js"></script>
 </body>
 </html>

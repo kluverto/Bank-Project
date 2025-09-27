@@ -1,7 +1,12 @@
 // Wait until the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Welcome alert
-    alert("Welcome to Evergreen Financial Bank 🌱");
+    
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav');
+    toggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+    });
+    
 
     // 2. Highlight navigation links when clicked
     const navLinks = document.querySelectorAll(".nav ul li a");

@@ -13,8 +13,7 @@
             <div class="hero-image">
               <a href="index.html"><img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="300px", height="300px"></a>
             </div>
-            <div class="welcome-message">
-            </div>
+            <button class="menu-toggle">&#9776;</button>
             <div class="nav">
              <ul>
                 <li><a href="signup.html">Sign-up</a></li>
@@ -34,7 +33,7 @@
                     <label for="email">Username:</label>
                     <input type="text" id="email" name="email" required placeholder="Enter a valid email"><br>
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required placeholder="Enter your password"><span><i id="toggle" class="fa-solid fa-eye"></i></span>
+                    <div class="input-wrapper"><input type="password" id="password" name="password" required placeholder="Enter your password"><span><i id="toggle" class="fa-solid fa-eye"></i></span></div>
                     <a href="">Forgot password?</a>
                     <p id="errorMsg" style="color:red"><p>
                     <div class="submit-group">
@@ -64,6 +63,13 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>    
     </footer>
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('.nav');
+        toggle.addEventListener('click', () => {
+            nav.classList.toggle('open');
+        });
+    </script>
     <script src="signin.js"></script>
 </body>
 </html>
