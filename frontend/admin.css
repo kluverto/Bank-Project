@@ -9,7 +9,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #fff; /* light, vibrant background */
   color: #003b2e; /* dark green for text */
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 15px;
 }
 
 /* Header */
@@ -307,6 +308,9 @@ header {
 
   /* Make recent transactions table smaller for mobile screens */
   @media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
     .recent-activity {
       padding: 0.35rem;
     }
@@ -660,7 +664,7 @@ footer nav ul {
   }
 
   .welcome-message {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     padding: 15px;
   }
 

@@ -9,7 +9,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: white; /* light, vibrant background */
   color: rgb(11, 88, 42); /* dark green for text */
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 15px;
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -42,6 +43,9 @@ body {
 
 /* Small screens */
 @media (max-width: 600px) {
+  body {
+    font-size: 13px;
+  }
   .about-us .first,
   .about-us .second,
   .mission .offer,

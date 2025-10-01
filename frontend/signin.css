@@ -243,6 +243,9 @@ footer nav ul {
 
 /* Mobile styles */
 @media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
   .menu-toggle {
     display: block;
     z-index: 1001;
