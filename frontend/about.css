@@ -7,12 +7,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-image: url('images/istockphoto-1148796694-612x612.jpg');
-  background-size: cover;      /* fills entire background */
-  background-repeat: no-repeat; /* prevents tiling */
-  background-position: center; /* keeps image centered */
-  color: #003b2e; /* dark green for text */
+  background: white; /* light, vibrant background */
+  color: rgb(11, 88, 42); /* dark green for text */
   line-height: 1.6;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Allow wrapping for flex containers */
@@ -59,7 +58,6 @@ body {
 
 /* Header */
 header {
-  background-image: url('images/istockphoto-1148796694-612x612.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -73,7 +71,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 40px;
+  padding: 0.1em 1.2rem;
 }
 
 .hero-image img {

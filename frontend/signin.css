@@ -38,7 +38,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.2em 1.2rem;
+  padding: 0.1em 1.2rem;
   flex-wrap: wrap;
   width: 100%;
 }

@@ -41,7 +41,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.2em 1.2rem;
+  padding: 0.1em 1.2rem;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -201,49 +201,28 @@ label{
   transform: scale(1.06);
 }
 
-.password-container {
+.input-wrapper {
   position: relative;
-  display:flex;
-  flex-direction: column;
   width: 100%;
-  margin-bottom: 20px;
-  gap: 3px;
 }
 
-.password-container [type="password"]{
-  background: White;
-  padding: 7px;
-  border: 3px solid #205241;
+.input-wrapper input {
+  background: white;
+  width: 100%;
+  padding: 7px 40px 7px 10px; /* extra space on right for icon */
+  border: 3px solid #2c8467;
   border-radius: 5px;
   font-size: 1rem;
   transition: transform 0.3s ease;
 }
 
-.password-container [type="password"]:hover{
-  transform: scale(1.04);
-}
-
-.password-container [type="password"]:focus{
-  border-color: #00bfa5;
-  transform: scale(1.06);
-}
-
-#toggle {
+.input-wrapper span {
   position: absolute;
-  right: 20px;
-  top: 25%;
+  right: 10px;
+  top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #205241;
-}
-
-#ctoggle {
-  position: absolute;
-  right: 20px;
-  top: 75%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #205241;
+  color: #2c8467;
 }
 
 .btn{
