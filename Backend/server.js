@@ -14,12 +14,15 @@ const { Pool } = require("pg");
 const knex = require ("knex");
 const { hostname } = require("os");
 const { register } = require("module");
+const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 
 
 //middleware
 app.use(bodyparser.json());
 app.use(cors());
 app.use(bodyparser.urlencoded({ extended:true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Socket.IO connection
 io.on("connection", (socket) => {
@@ -60,15 +63,18 @@ io.on("connection", (socket) => {
 
 
 //routes
-
-
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend", "index.html"));
 });
 
 const db = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+  //connectionString: process.env.DATABASE_URL,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: false
 })
 
 // GET chat history for a user
@@ -181,8 +187,7 @@ app.get("/dashboard/:email", async (req, res) => {
 
     // Fetch profile
     const profileResult = await db.query(
-      `SELECT firstname, secondname, email, account_balance, account_number, 
-              savings_balance, card_balance 
+      `SELECT * 
        FROM user_profile 
        WHERE email = $1`,
       [email]
@@ -490,6 +495,46 @@ app.get("/admin/recent-transactions", async (req, res) => {
   }
 });
 
+//image upload setup
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "uploads"),
+  filename: (req, file, cb) => {
+    cb(null, uuidv4() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      cb(new Error("Only images allowed"), false);
+    }
+    cb(null, true);
+  }
+});
+
+app.post("/upload-profile-pic", upload.single("image"), async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No file uploaded" });
+    }
+
+    // Save filename in Postgres
+    await db.query(
+      "UPDATE user_profile SET profile_image = $1 WHERE email = $2",
+      [req.file.filename, email]
+    );
+
+    res.json({ success: true, image: req.file.filename });
+
+  } catch (err) {
+    console.error("Upload error:", err);
+    res.status(500).json({ success: false, message: "Upload failed" });
+  }
+});
 
 
 //server frontend

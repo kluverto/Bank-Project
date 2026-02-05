@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evergreen Financial - User Dashboard</title>
+  <title>United Bank - User Dashboard</title>
   <link rel="stylesheet" href="userdashboard.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 </head>
@@ -12,7 +12,7 @@
   <header>
     <section class="nav-bar">
       <div class="hero-image">
-        <img src="images/evergreen_transparent.png" alt="Evergreen Financial Bank" width="200" height="200">
+        <a href ="index.html"><img src="images/united bank.png" alt="United Bank" width="200" height="200"></a>
       </div>
       <button class="menu-toggle">&#9776;</button>
       <div class="nav">
@@ -31,6 +31,15 @@
   <!-- Main Dashboard -->
   <main>
     <section class="user-overview">
+      <div class="profile-pic-wrapper">
+        <label for="profileUpload">
+          <img id="profilePic" src=""alt="Profile Picture"/>
+          <div class="edit-icon">
+            <i class="fa fa-camera"></i>
+          </div>
+        </label>
+        <input type="file" id="profileUpload" accept="image/*" hidden/>
+      </div>
       <h2>Welcome back </h2> <h2 class="user-name"></h2> <h2 class="user-number"></h2>
       <p>Your financial summary at a glance.</p>
 
@@ -96,8 +105,8 @@
   <footer>
         <div class="footer-container">
             <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:evergreen@support.com">evergreen@support.com</a>
-            <p>&copy; 2025 Evergreen Financial Bank. All rights reserved.</p>
+            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p>&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
                     <li><a href="">Privacy Policy</a></li>
@@ -132,6 +141,13 @@
         .then(data => {
           if (data.success) {
             const profile = data.user;
+
+            // Show saved profile image if exists
+            if (profile.profile_image) {
+              profilePic.src = `/uploads/${profile.profile_image}`;
+            } else {
+              profilePic.src = "";
+            }
 
             // Fill profile info
             document.querySelector(".user-name").textContent =
@@ -172,11 +188,48 @@
             "<p>Failed to load profile data.</p>";
         });
     }
+  const uploadInput = document.getElementById("profileUpload");
+  const profilePic = document.getElementById("profilePic");
+
+  uploadInput.addEventListener("change", async () => {
+    const file = uploadInput.files[0];
+    if (!file) return;
+
+    // Preview immediately
+    const reader = new FileReader();
+    reader.onload = () => {
+      profilePic.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+
+    // Send file to backend
+    const formData = new FormData();
+    formData.append("image", file);   // MUST match upload.single("image")
+    formData.append("email", email);  // email from URL or logged-in user
+
+    try {
+      const res = await fetch("/upload-profile-pic", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // Reload image from server
+        profilePic.src = `/uploads/${data.image}`;
+      } else {
+        alert("Upload failed");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("Upload failed");
+    }
+  });
   </script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
   const socket = io();
- const chatIcon = document.getElementById("chatIcon");
+  const chatIcon = document.getElementById("chatIcon");
   const chatWindow = document.getElementById("chatWindow");
   const messagesDiv = document.getElementById("messages");
   const input = document.getElementById("messageInput");
@@ -261,6 +314,7 @@ closeChat.addEventListener("click", () => {
     if (e.key === "Enter") sendBtn.click();
   });
   </script>
+
 
 </body>
 </html>
