@@ -514,17 +514,26 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 app.post("/upload-profile-pic", upload.single("image"), async (req, res) => {
-  const { email } = req.body;
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No file uploaded" });
+    }
 
-  const imageUrl = req.file.path; // Cloudinary URL
+    const { email } = req.body;
+    const imageUrl = req.file.path;
 
-  await db.query(
-    "UPDATE user_profile SET profile_image = $1 WHERE email = $2",
-    [imageUrl, email]
-  );
+    await db.query(
+      "UPDATE user_profile SET profile_image = $1 WHERE email = $2",
+      [imageUrl, email]
+    );
 
-  res.json({ success: true, image: imageUrl });
+    res.json({ success: true, image: imageUrl });
+  } catch (err) {
+    console.error("Upload error:", err);
+    res.status(500).json({ success: false, message: "Upload failed" });
+  }
 });
+
 
 
 //server frontend
