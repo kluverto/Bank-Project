@@ -214,17 +214,25 @@
       });
       const data = await res.json();
 
-      if (data.success) {
-        // Reload image from server
-        profilePic.src = `/uploads/${data.image}`;
-      } else {
-        alert("Upload failed");
-      }
+      if (!res.ok || !data.success) {
+      throw new Error(data.message || "Upload failed");
+    }
+
+      // ✅ Cloudinary returns a full URL
+      profilePic.src = data.image;
+
+      // Optional: cache it locally so refresh keeps it
+      localStorage.setItem("profileImage", data.image);
+
     } catch (err) {
       console.error("Upload error:", err);
-      alert("Upload failed");
+      alert("Image upload failed");
     }
   });
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      profilePic.src = savedImage;
+    }
   </script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
