@@ -16,6 +16,8 @@ const { hostname } = require("os");
 const { register } = require("module");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 
 //middleware
@@ -61,6 +63,11 @@ io.on("connection", (socket) => {
   });
 });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 
 //routes
 app.get("/", (req, res) => {
@@ -496,44 +503,25 @@ app.get("/admin/recent-transactions", async (req, res) => {
 });
 
 //image upload setup
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, "uploads"),
-  filename: (req, file, cb) => {
-    cb(null, uuidv4() + path.extname(file.originalname));
-  }
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
 });
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 2 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith("image/")) {
-      cb(new Error("Only images allowed"), false);
-    }
-    cb(null, true);
-  }
-});
+const upload = multer({ storage });
 
 app.post("/upload-profile-pic", upload.single("image"), async (req, res) => {
-  try {
-    const { email } = req.body;
+  const { email } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: "No file uploaded" });
-    }
+  const imageUrl = req.file.path; // Cloudinary URL
 
-    // Save filename in Postgres
-    await db.query(
-      "UPDATE user_profile SET profile_image = $1 WHERE email = $2",
-      [req.file.filename, email]
-    );
+  await db.query(
+    "UPDATE user_profile SET profile_image = $1 WHERE email = $2",
+    [imageUrl, email]
+  );
 
-    res.json({ success: true, image: req.file.filename });
-
-  } catch (err) {
-    console.error("Upload error:", err);
-    res.status(500).json({ success: false, message: "Upload failed" });
-  }
+  res.json({ success: true, image: imageUrl });
 });
 
 
