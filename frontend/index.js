@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Copy email to clipboard when clicked
     const emailElement = document.getElementById("email");
     emailElement.addEventListener("click", () => {
-        const email = "evergreen@support.com";
+        const email = "unitedbnk@support.com";
         navigator.clipboard.writeText(email).then(() => {
             alert("📧 Email copied: " + email);
         });
