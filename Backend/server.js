@@ -503,10 +503,12 @@ app.get("/admin/recent-transactions", async (req, res) => {
 });
 
 //image upload setup
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "profile_pictures",
+    allowed_formats: ["jpg", "png", "jpeg"]
+  }
 });
 
 const upload = multer({ storage });
