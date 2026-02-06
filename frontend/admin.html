@@ -223,7 +223,7 @@
       .then(data => {
         if (data.success) {
           document.querySelector(".total_users").textContent = data.total_users;
-          document.querySelector(".total_balance").textContent = `₦${data.total_balance}`;
+          document.querySelector(".total_balance").textContent = `$${data.total_balance}`;
         }
       })
       .catch(err => console.error("Error fetching stats:", err));
@@ -306,7 +306,7 @@
               <td>${tx.email}</td>
               <td>${tx.account_number}</td>
               <td>${tx.type}</td>
-              <td>₦${Number(tx.amount).toLocaleString()}</td>
+              <td>$${Number(tx.amount).toLocaleString()}</td>
               <td>${tx.status}</td>
               <td>${new Date(tx.date).toLocaleString()}</td>
             `;

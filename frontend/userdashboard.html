@@ -153,11 +153,11 @@
             document.querySelector(".user-name").textContent =
               `${profile.firstname} ${profile.secondname}`;
             document.querySelector(".user-savings").textContent =
-              `₦${profile.savings_balance}`;
+              `$${profile.savings_balance}`;
             document.querySelector(".user-balance").textContent =
-              `₦${profile.account_balance}`;
+              `$${profile.account_balance}`;
             document.querySelector(".user-card").textContent =
-              `₦${profile.card_balance}`;
+              `$${profile.card_balance}`;
             document.querySelector(".user-number").textContent =
               `${profile.account_number}`;
 
@@ -170,7 +170,7 @@
               row.innerHTML = `
                 <td>${tx.description}</td>
                 <td>${tx.type}</td>
-                <td>₦${tx.amount}</td>
+                <td>$${tx.amount}</td>
                 <td>${tx.status}</td>
                 <td><small>${new Date(tx.date).toLocaleString()}</small></td>
               `;
