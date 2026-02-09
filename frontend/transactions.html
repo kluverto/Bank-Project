@@ -178,33 +178,98 @@ function applyFilters() {
 </script>
 
 <script src="/socket.io/socket.io.js"></script>
-<script>
-const socket = io();
-const messagesDiv = document.getElementById("messages");
-const input = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
+  <script>
+  const socket = io();
+  const chatIcon = document.getElementById("chatIcon");
+  const chatWindow = document.getElementById("chatWindow");
+  const messagesDiv = document.getElementById("messages");
+  const input = document.getElementById("messageInput");
+  const sendBtn = document.getElementById("sendBtn");
+  const badge = document.getElementById("newMsgBadge");
+  const closeChat = document.getElementById("closeChat");
 
-if (email) {
-  socket.emit("joinRoom", { email: email, role: "user" });
+  let chatOpen = false;
+  let unreadCount = 0;
+
+    // Floating chat toggle
+  chatIcon.addEventListener("click", () => {
+chatOpen = !chatOpen;
+if (chatOpen) {
+  chatWindow.classList.add("open");
+  badge.style.display = "none";
+  unreadCount = 0;
+} else {
+  chatWindow.classList.remove("open");
+}
+});
+
+//transaction dashboard update
+socket.on("transactionUpdated", (data) => {
+  // Reload dashboard automatically
+  location.reload();
+});
+
+// Close button inside chat
+closeChat.addEventListener("click", () => {
+  chatOpen = false;
+  chatWindow.classList.remove("open");
+});
+
+  // Dynamically get user email from URL parameter
+  const userEmail = params.get("email"); 
+
+  async function loadHistory(email) {
+  const res = await fetch(`/chat/${encodeURIComponent(email)}`);
+  const data = await res.json();
+  if (data.success) {
+    messagesDiv.innerHTML = "";
+    data.messages.forEach(msg => {
+      const p = document.createElement("p");
+      p.className = "message " + (msg.sender === "admin" ? "admin" : "user");
+      p.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
+      messagesDiv.appendChild(p);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
 }
 
-socket.on("chatMessage", (msg) => {
-  const p = document.createElement("p");
-  p.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text}`;
-  messagesDiv.appendChild(p);
-});
 
-sendBtn.addEventListener("click", () => {
-  const text = input.value.trim();
-  if (!text) return;
-  socket.emit("chatMessage", {
+  if (!userEmail) {
+    alert("No email found in URL. Cannot join chat.");
+  } else {
+    loadHistory(userEmail);
+    socket.emit("joinRoom", { email: userEmail, role: "user" });
+  }
+
+  // Receive messages
+  socket.on("chatMessage", (msg) => {
+    const p = document.createElement("p");
+    p.className = "message " + (msg.sender === "admin" ? "admin" : "user");
+    p.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
+    messagesDiv.appendChild(p);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    if(!chatOpen){ unreadCount++; badge.style.display="flex"; badge.textContent=unreadCount;  chatIcon.classList.add("bounce"); 
+    setTimeout(() => {
+      chatIcon.classList.remove("bounce");
+    }, 4000); }
+  });
+
+  // Send messages
+  sendBtn.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+    socket.emit("chatMessage", {
     text,
-    sender: email,
+    sender: userEmail,      
     receiver: "admin"
   });
-  input.value = "";
-});
-</script>
+    input.value = "";
+  });
+
+  input.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBtn.click();
+  });
+  </script>
 
 </body>
 </html>
