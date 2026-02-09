@@ -19,7 +19,7 @@
         <ul>
           <li><a href="admin.html">Dashboard</a></li>
           <li><a href="manage_users.html">Users</a></li>
-          <li><a href="transactions.html">Transactions</a></li>
+          <li><a href="admin-transactions.html">Transactions</a></li>
           <li><a href="reports.html">Reports</a></li>
           <li><a href="settings.html">Settings</a></li>
           <li class="logout"><a href="signin.html">Logout</a></li>
@@ -424,7 +424,17 @@
   input.addEventListener("keypress", e => {
     if (e.key === "Enter") sendBtn.click();
   });
-  </script>
+
+  // Listen for transaction updates
+  socket.on("transactionUpdated", (data) => {
+    const statusCell = document.getElementById(`status-${data.id}`);
+    if (statusCell) {
+      statusCell.textContent = data.status;
+    }
+  });
+
+
+</script>
 
 </body>
 </html>

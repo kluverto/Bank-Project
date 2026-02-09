@@ -256,7 +256,7 @@ app.get("/admin/stats", async (req, res) => {
 //Admin create new user route
 app.post("/admin/create-user", async (req, res) => {
   try {
-    const { firstname, secondname, email, phonenumber, password, account_balance, savings_balance, card_balance } = req.body;
+    const { firstname, secondname, email, phonenumber, password, date_of_birth, account_balance, savings_balance, card_balance } = req.body;
     const dob = date_of_birth ? new Date(date_of_birth).toISOString().split("T")[0] : null;
 
     // Hash password
@@ -501,6 +501,98 @@ app.get("/admin/recent-transactions", async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+// Admin get all transactions
+app.get("/admin/all-transactions", async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT 
+        id,
+        email,
+        account_number,
+        type,
+        amount,
+        status,
+        description,
+        date
+      FROM transactions
+      ORDER BY date DESC
+    `);
+
+    res.json({
+      success: true,
+      transactions: result.rows
+    });
+
+  } catch (err) {
+    console.error("Error fetching transactions:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+});
+
+// Admin update transaction status
+app.post("/admin/update-transaction", async (req, res) => {
+  const { transactionId, action } = req.body;
+
+  try {
+    // 1️⃣ Get transaction
+    const txResult = await db.query(
+      "SELECT * FROM transactions WHERE id = $1",
+      [transactionId]
+    );
+
+    if (txResult.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Transaction not found" });
+    }
+
+    const transaction = txResult.rows[0];
+
+    if (transaction.status !== "pending") {
+      return res.json({ success: false, message: "Transaction already processed" });
+    }
+
+    // 2️⃣ Update status
+    const newStatus = action === "approve" ? "completed" : "failed";
+
+    await db.query(
+      "UPDATE transactions SET status = $1 WHERE id = $2",
+      [newStatus, transactionId]
+    );
+
+    // 3️⃣ If approved → update user balance
+    if (action === "approve") {
+      if (transaction.type === "credit") {
+        await db.query(
+          "UPDATE users SET account_balance = account_balance + $1 WHERE email = $2",
+          [transaction.amount, transaction.email]
+        );
+      }
+
+      if (transaction.type === "debit") {
+        await db.query(
+          "UPDATE users SET account_balance = account_balance - $1 WHERE email = $2",
+          [transaction.amount, transaction.email]
+        );
+      }
+    }
+
+    // 4️⃣ Emit real-time update
+    io.emit("transactionUpdated", {
+      id: transactionId,
+      status: newStatus
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 //image upload setup
 const storage = new CloudinaryStorage({
