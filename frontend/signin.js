@@ -39,12 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("userRole", data.role);
     
   // Redirect based on role
-    if (result.role === "admin") {
-      window.location.href = "/admin.html";
-    } else if (result.role === "user"){
-      window.location.href = `/userdashboard.html?email=${encodeURIComponent(data.email)}`;
-    } else{
-      errorMsg.innerHTML = "Invalid Credentials";
+  if (data.role === "admin") {
+      window.location.href = "admindashboard.html";
+    } else {
+      window.location.href = "userdashboard.html";
     }
   });
 });
