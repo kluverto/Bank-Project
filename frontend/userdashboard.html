@@ -19,7 +19,7 @@
         <ul>
           <li><a href="userdashboard.html">Dashboard</a></li>
           <li><a href="transactions.html">Transactions</a></li>
-          <li><a href="transfer.html">Transfer</a></li>
+          <li><a id="transferlink" href="#">Transfer</a></li>
           <li><a href="signin.html">Logout</a></li>
         </ul>
       </div>
@@ -130,6 +130,10 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const email = params.get("email");
+    const transferLink = document.getElementById("transferLink");
+    if (email) {
+      transferLink.href = `transfer.html?email=${encodeURIComponent(email)}`;
+    }
 
     if (!email) {
       document.getElementById("profile").innerHTML = "<p>No user email provided.</p>";
