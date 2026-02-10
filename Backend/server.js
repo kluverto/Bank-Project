@@ -620,7 +620,6 @@ app.post("/admin/update-transaction", async (req, res) => {
 app.post("/transfer", async (req, res) => {
   try {
     const { email, fromAccount, recipientBank, recipientAccount, amount } = req.body;
-
     const amt = parseFloat(amount);
 
     if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt) {
@@ -633,7 +632,6 @@ app.post("/transfer", async (req, res) => {
 
     // Map frontend account type to DB column
     let targetColumn;
-
     if (fromAccount === "main") targetColumn = "account_balance";
     if (fromAccount === "savings") targetColumn = "savings_balance";
     if (fromAccount === "card") targetColumn = "card_balance";
@@ -642,9 +640,9 @@ app.post("/transfer", async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid account type" });
     }
 
-    // Get current balance
+    // Get user profile and current balance
     const userResult = await db.query(
-      `SELECT account_number, ${targetColumn} FROM user_profile WHERE email = $1`,
+      `SELECT account_number, ${targetColumn} FROM user_profile WHERE email=$1`,
       [email]
     );
 
@@ -655,19 +653,36 @@ app.post("/transfer", async (req, res) => {
     const user = userResult.rows[0];
     const currentBalance = parseFloat(user[targetColumn]);
 
-    if (currentBalance < amt) {
-      return res.status(400).json({ success: false, message: "Insufficient funds" });
+    // Count previous completed transactions
+    const txCountResult = await db.query(
+      "SELECT COUNT(*) FROM transactions WHERE email=$1 AND status='completed'",
+      [email]
+    );
+    const completedTxCount = parseInt(txCountResult.rows[0].count);
+
+    // Determine transaction status
+    let status = "completed";
+    if (completedTxCount >= 4) {
+      status = "pending"; // require admin approval
     }
 
-    const newBalance = currentBalance - amt;
+    let newBalance = null;
 
-    // 1️⃣ Update balance immediately
-    await db.query(
-      `UPDATE user_profile SET ${targetColumn} = $1 WHERE email = $2`,
-      [newBalance, email]
-    );
+    // Deduct balance only if transaction is auto-completed
+    if (status === "completed") {
+      if (currentBalance < amt) {
+        return res.status(400).json({ success: false, message: "Insufficient funds" });
+      }
 
-    // 2️⃣ Insert transaction record
+      newBalance = currentBalance - amt;
+
+      await db.query(
+        `UPDATE user_profile SET ${targetColumn}=$1 WHERE email=$2`,
+        [newBalance, email]
+      );
+    }
+
+    // Insert transaction record
     await db.query(
       `INSERT INTO transactions
        (email, account_number, type, amount, status, description, date)
@@ -677,24 +692,39 @@ app.post("/transfer", async (req, res) => {
         user.account_number,
         "debit",
         amt,
-        "completed",
+        status,
         `Transfer to ${recipientBank} (${recipientAccount})`
       ]
     );
 
-    // 3️⃣ Emit real-time update
-    io.emit("transactionUpdated", {
-      email,
+    // Emit real-time update to dashboard
+    io.emit("transactionUpdated", { email, newBalance, status });
+
+    // Notify admin if pending
+    if (status === "pending") {
+      io.emit("transactionPending", {
+        email,
+        amount: amt,
+        fromAccount,
+        recipientBank,
+        recipientAccount,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: status === "completed"
+        ? "Transfer successful"
+        : "Transfer recorded as pending. Admin approval required",
       newBalance
     });
-
-    res.json({ success: true });
 
   } catch (err) {
     console.error("Transfer error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 //image upload setup
 const storage = new CloudinaryStorage({
