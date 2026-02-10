@@ -563,21 +563,44 @@ app.post("/admin/update-transaction", async (req, res) => {
     );
 
     // 3️⃣ If approved → update user balance
-    if (action === "approve") {
-      if (transaction.type === "credit") {
-        await db.query(
-          "UPDATE users SET account_balance = account_balance + $1 WHERE email = $2",
-          [transaction.amount, transaction.email]
-        );
-      }
+        if (action === "approve") {
+          if (transaction.type === "credit") {
+            await db.query(
+              "UPDATE users_profile SET account_balance = account_balance + $1 WHERE email = $2",
+              [transaction.amount, transaction.email]
+            );
+          }
+        if (action === "approve") {
 
-      if (transaction.type === "debit") {
-        await db.query(
-          "UPDATE users SET account_balance = account_balance - $1 WHERE email = $2",
-          [transaction.amount, transaction.email]
-        );
+          let column = "account_balance"; // default
+
+          if (transaction.description.includes("Savings")) {
+            column = "savings_balance";
+          }
+
+          if (transaction.description.includes("Card")) {
+            column = "card_balance";
+          }
+
+          if (transaction.type === "credit") {
+            await db.query(
+              `UPDATE user_profile 
+              SET ${column} = ${column} + $1 
+              WHERE email = $2`,
+              [transaction.amount, transaction.email]
+            );
+          }
+
+          if (transaction.type === "debit") {
+            await db.query(
+              `UPDATE user_profile 
+              SET ${column} = ${column} - $1 
+              WHERE email = $2`,
+              [transaction.amount, transaction.email]
+            );
+          }
+        }
       }
-    }
 
     // 4️⃣ Emit real-time update
     io.emit("transactionUpdated", {
@@ -593,6 +616,85 @@ app.post("/admin/update-transaction", async (req, res) => {
   }
 });
 
+// USER TRANSFER ROUTE
+app.post("/transfer", async (req, res) => {
+  try {
+    const { email, fromAccount, recipientBank, recipientAccount, amount } = req.body;
+
+    const amt = parseFloat(amount);
+
+    if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt) {
+      return res.status(400).json({ success: false, message: "All fields required" });
+    }
+
+    if (amt <= 0) {
+      return res.status(400).json({ success: false, message: "Invalid amount" });
+    }
+
+    // Map frontend account type to DB column
+    let targetColumn;
+
+    if (fromAccount === "main") targetColumn = "account_balance";
+    if (fromAccount === "savings") targetColumn = "savings_balance";
+    if (fromAccount === "card") targetColumn = "card_balance";
+
+    if (!targetColumn) {
+      return res.status(400).json({ success: false, message: "Invalid account type" });
+    }
+
+    // Get current balance
+    const userResult = await db.query(
+      `SELECT account_number, ${targetColumn} FROM user_profile WHERE email = $1`,
+      [email]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const user = userResult.rows[0];
+    const currentBalance = parseFloat(user[targetColumn]);
+
+    if (currentBalance < amt) {
+      return res.status(400).json({ success: false, message: "Insufficient funds" });
+    }
+
+    const newBalance = currentBalance - amt;
+
+    // 1️⃣ Update balance immediately
+    await db.query(
+      `UPDATE user_profile SET ${targetColumn} = $1 WHERE email = $2`,
+      [newBalance, email]
+    );
+
+    // 2️⃣ Insert transaction record
+    await db.query(
+      `INSERT INTO transactions
+       (email, account_number, type, amount, status, description, date)
+       VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
+      [
+        email,
+        user.account_number,
+        "debit",
+        amt,
+        "completed",
+        `Transfer to ${recipientBank} (${recipientAccount})`
+      ]
+    );
+
+    // 3️⃣ Emit real-time update
+    io.emit("transactionUpdated", {
+      email,
+      newBalance
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("Transfer error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 //image upload setup
 const storage = new CloudinaryStorage({

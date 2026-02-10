@@ -159,5 +159,33 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>        
   </footer>
+
+  <script>
+  const params = new URLSearchParams(window.location.search);
+
+  // Get values from URL
+  const ref = params.get("ref") || "TXN" + Math.floor(Math.random()*1000000);
+  const email = params.get("email") || "N/A";
+  const fromAccount = params.get("from") || "N/A";
+  const recipientBank = params.get("bank") || "N/A";
+  const recipientAccount = params.get("account") || "N/A";
+  const amount = params.get("amount") || "0.00";
+  const status = params.get("status") || "Success";
+
+  document.getElementById("ref").textContent = ref;
+  document.getElementById("email").textContent = email;
+  document.getElementById("fromAccount").textContent = fromAccount;
+  document.getElementById("recipientBank").textContent = recipientBank;
+  document.getElementById("recipientAccount").textContent = recipientAccount;
+  document.getElementById("amount").textContent = "$" + amount;
+  document.getElementById("date").textContent = new Date().toLocaleString();
+
+  const statusEl = document.getElementById("status");
+  statusEl.textContent = status;
+  statusEl.className = status.toLowerCase() === "success" 
+    ? "status-success" 
+    : "status-failed";
+</script>
+
 </body>
 </html>

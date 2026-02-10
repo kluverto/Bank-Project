@@ -27,7 +27,16 @@
   </header>
 
   <main>
-     <section class="user-overview">
+    <div class="transfer-user-info">
+        <h3>Sender Details</h3>
+        <p><strong>Name:</strong> <span id="userName"></span></p>
+        <p><strong>Account Number:</strong> <span id="userAccount"></span></p>
+        <p><strong>Main Balance:</strong> $<span id="mainBalance"></span></p>
+        <p><strong>Savings Balance:</strong> $<span id="savingsBalance"></span></p>
+        <p><strong>Card Balance:</strong> $<span id="cardBalance"></span></p>
+    </div>
+
+    <section class="user-overview">
       <h2><i class="fa fa-exchange-alt"></i> Transfer Funds</h2>
       <p>Send money securely to another bank account.</p>
 
@@ -103,65 +112,105 @@
 
   <!-- Scripts -->
   <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.nav');
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.nav');
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
 
-    window.location.href = `transaction-result.html?ref=${data.reference}`;
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
 
-  </script>
+  const transferForm = document.getElementById("transferForm");
+  const messageBox = document.getElementById("transferMessage");
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get("email");
+  const userName = document.getElementById("userName");
+  const userAccount = document.getElementById("userAccount");
+  const mainBalance = document.getElementById("mainBalance");
+  const savingsBalance = document.getElementById("savingsBalance");
+  const cardBalance = document.getElementById("cardBalance");
 
-    const transferForm = document.getElementById("transferForm");
-    const messageBox = document.getElementById("transferMessage");
+  // 🔹 FETCH USER DATA FROM DATABASE
+  async function loadUser() {
+    if (!email) {
+      alert("No user email found in URL");
+      return;
+    }
 
-    transferForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    try {
+      const res = await fetch(`/dashboard/${email}`);
+      const data = await res.json();
 
-      const fromAccount = document.getElementById("fromAccount").value;
-      const recipientBank = document.getElementById("recipientBank").value;
-      const recipientAccount = document.getElementById("recipientAccount").value;
-      const amount = document.getElementById("amount").value;
-
-      if (!email) {
-        messageBox.innerHTML = "<p style='color:red;'>User email missing.</p>";
+      if (!data.success) {
+        alert("Failed to load user data");
         return;
       }
 
-      try {
-        const res = await fetch("/transfer", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            email,
-            fromAccount,
-            recipientBank,
-            recipientAccount,
-            amount
-          })
-        });
+      const user = data.user;
 
-        const data = await res.json();
+      userName.textContent = `${user.firstname} ${user.secondname}`;
+      userAccount.textContent = user.account_number;
+      mainBalance.textContent = user.account_balance;
+      savingsBalance.textContent = user.savings_balance;
+      cardBalance.textContent = user.card_balance;
 
-        if (data.success) {
-          messageBox.innerHTML = "<p style='color:green;'>Transfer successful!</p>";
-          transferForm.reset();
-        } else {
-          messageBox.innerHTML = `<p style='color:red;'>${data.message}</p>`;
-        }
+    } catch (err) {
+      console.error("Error loading user:", err);
+    }
+  }
 
-      } catch (err) {
-        console.error("Transfer error:", err);
-        messageBox.innerHTML = "<p style='color:red;'>Transfer failed. Try again.</p>";
+  loadUser();
+
+  // 🔹 HANDLE TRANSFER
+  transferForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fromAccount = document.getElementById("fromAccount").value;
+    const recipientBank = document.getElementById("recipientBank").value;
+    const recipientName = document.getElementById("recipientName").value;
+    const recipientAccount = document.getElementById("recipientAccount").value;
+    const amount = document.getElementById("amount").value;
+
+    if (!email) {
+      messageBox.innerHTML = "<p style='color:red;'>User email missing.</p>";
+      return;
+    }
+
+    try {
+      const res = await fetch("/transfer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          fromAccount,
+          recipientBank,
+          recipientName,
+          recipientAccount,
+          amount
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        messageBox.innerHTML = "<p style='color:green;'>Transfer successful!</p>";
+        transferForm.reset();
+
+        // 🔄 Reload updated balances
+        loadUser();
+
+      } else {
+        messageBox.innerHTML = `<p style='color:red;'>${data.message}</p>`;
       }
-    });
-  </script>
+
+    } catch (err) {
+      console.error("Transfer error:", err);
+      messageBox.innerHTML = "<p style='color:red;'>Transfer failed. Try again.</p>";
+    }
+  });
+</script>
+
 </body>
 </html>
