@@ -129,10 +129,11 @@
   </script>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const email = params.get("email");
+    const email = localStorage.getItem("userEmail");
 
     if (!email) {
-      document.getElementById("profile").innerHTML = "<p>No user email provided.</p>";
+      alert("You are not logged in!");
+      window.location.href = "signin.html";
     } else {
       fetch(`/dashboard/${email}`)
         .then(res => res.json())
