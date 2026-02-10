@@ -715,7 +715,7 @@ app.post("/transfer", async (req, res) => {
       success: true,
       message: status === "completed"
         ? "Transfer successful"
-        : "Transfer recorded as pending. Admin approval required",
+        : "Transaction pending, waiting for approval",
       newBalance
     });
 
