@@ -33,7 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const result = await res.json();
+
+  // Store logged-in user email
+    localStorage.setItem("userEmail", data.user.email);
+    localStorage.setItem("userRole", data.role);
     
+  // Redirect based on role
     if (result.role === "admin") {
       window.location.href = "/admin.html";
     } else if (result.role === "user"){

@@ -117,8 +117,12 @@
     nav.classList.toggle('open');
   });
 
-  const params = new URLSearchParams(window.location.search);
-  const email = params.get("email");
+  const email = localStorage.getItem("userEmail");
+
+  if (!email) {
+    alert("User not logged in");
+    window.location.href = "signin.html";
+  }
 
   const transferForm = document.getElementById("transferForm");
   const messageBox = document.getElementById("transferMessage");
