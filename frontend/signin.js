@@ -39,10 +39,21 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("userRole", data.role);
     
   // Redirect based on role
-  if (data.role === "admin") {
+if (result.success) {
+
+  // Store logged-in user email
+  localStorage.setItem("userEmail", result.user.email);
+  localStorage.setItem("userRole", result.role);
+
+  // Redirect based on role
+    if (result.role === "admin") {
       window.location.href = "admindashboard.html";
     } else {
       window.location.href = "userdashboard.html";
     }
-  });
+
+  } else {
+    errorMsg.textContent = result.message || "Login failed";
+  }
+});
 });
