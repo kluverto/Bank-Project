@@ -177,6 +177,84 @@ function applyFilters() {
 }
 </script>
 
+<script>
+const tbody = document.querySelector("#transactions tbody");
+
+// Load all transactions
+async function loadTransactions() {
+  try {
+    const res = await fetch("/admin/all-transactions");
+    const data = await res.json();
+    if (!data.success) return;
+
+    tbody.innerHTML = "";
+
+    const pendingTx = data.transactions.filter(tx => tx.status === "pending");
+
+    if (pendingTx.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8">No pending transactions</td></tr>`;
+      return;
+    }
+
+    pendingTx.forEach(tx => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${tx.id}</td>
+        <td>${tx.email}</td>
+        <td>${tx.account_number}</td>
+        <td>$${Number(tx.amount).toLocaleString()}</td>
+        <td>${tx.type}</td>
+        <td>${tx.description}</td>
+        <td>${new Date(tx.date).toLocaleString()}</td>
+        <td>
+          <button class="approve-btn" data-id="${tx.id}">Approve</button>
+          <button class="reject-btn" data-id="${tx.id}">Reject</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    document.querySelectorAll(".approve-btn").forEach(btn => {
+      btn.addEventListener("click", () => updateTransaction(btn.dataset.id, "approve"));
+    });
+    document.querySelectorAll(".reject-btn").forEach(btn => {
+      btn.addEventListener("click", () => updateTransaction(btn.dataset.id, "reject"));
+    });
+
+  } catch (err) {
+    console.error("Error loading transactions:", err);
+  }
+}
+
+// Approve/Reject a transaction
+async function updateTransaction(id, action) {
+  try {
+    const res = await fetch("/admin/update-transaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transactionId: id, action })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      alert(`Transaction ${action}d successfully`);
+      loadTransactions(); // reload table
+    } else {
+      alert(`Failed: ${data.message}`);
+    }
+  } catch (err) {
+    console.error("Error updating transaction:", err);
+  }
+}
+
+// Initial load
+loadTransactions();
+
+// Real-time updates via Socket.IO
+socket.on("transactionUpdated", () => loadTransactions());
+</script>
+
+
 <script src="/socket.io/socket.io.js"></script>
   <script>
   const socket = io();
