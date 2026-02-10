@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("userRole", result.role);
 
       if (result.role === "admin") {
-        window.location.href = "admindashboard.html";
+        window.location.href = "admin.html";
       } else {
         window.location.href = "userdashboard.html";
       }
