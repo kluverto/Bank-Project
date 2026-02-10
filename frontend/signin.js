@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    
 
     const res = await fetch("/signin", {
       method: "POST",
@@ -33,27 +32,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const result = await res.json();
+    console.log(result);
 
-  // Store logged-in user email
-    localStorage.setItem("userEmail", data.user.email);
-    localStorage.setItem("userRole", data.role);
-    
-  // Redirect based on role
-if (result.success) {
+    if (result.success) {
 
-  // Store logged-in user email
-  localStorage.setItem("userEmail", result.user.email);
-  localStorage.setItem("userRole", result.role);
+      // ✅ Store email from form
+      localStorage.setItem("userEmail", data.email);
 
-  // Redirect based on role
-    if (result.role === "admin") {
-      window.location.href = "admindashboard.html";
+      // ✅ Store role from backend
+      localStorage.setItem("userRole", result.role);
+
+      if (result.role === "admin") {
+        window.location.href = "admindashboard.html";
+      } else {
+        window.location.href = "userdashboard.html";
+      }
+
     } else {
-      window.location.href = "userdashboard.html";
+      errorMsg.textContent = result.message || "Login failed";
     }
-
-  } else {
-    errorMsg.textContent = result.message || "Login failed";
-  }
-});
+  });
 });
