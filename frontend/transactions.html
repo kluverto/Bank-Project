@@ -117,26 +117,28 @@ const email = params.get("email");
 
 let allTransactions = [];
 
-if (!email) {
-  alert("No email found in URL.");
-} else {
-  fetch(`/dashboard/${email}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        allTransactions = data.transactions || [];
-        renderTransactions(allTransactions);
-      }
-    })
-    .catch(err => console.error("Error:", err));
+async function loadTransactions() {
+  try {
+    const res = await fetch("/admin/all-transactions"); // ✅ fixed URL
+    const data = await res.json();
+    if (data.success) {
+      allTransactions = data.transactions || [];
+      renderTransactions(allTransactions);
+    }
+  } catch (err) {
+    console.error("Error fetching transactions:", err);
+  }
 }
+
+// Initial load
+loadTransactions();
 
 function renderTransactions(transactions) {
   const tbody = document.querySelector("#transactions tbody");
   tbody.innerHTML = "";
 
   if (transactions.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5">No transactions found</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7">No transactions found</td></tr>`;
     return;
   }
 
@@ -153,9 +155,23 @@ function renderTransactions(transactions) {
         </span>
       </td>
       <td><small>${new Date(tx.date).toLocaleString()}</small></td>
+      <td>
+        ${tx.status === "pending" ? `
+          <button class="approve-btn" data-id="${tx.id}">Approve</button>
+          <button class="reject-btn" data-id="${tx.id}">Reject</button>
+        ` : ""}
+      </td>
     `;
 
     tbody.appendChild(row);
+  });
+
+  // Attach event listeners for pending transactions
+  document.querySelectorAll(".approve-btn").forEach(btn => {
+    btn.addEventListener("click", () => updateTransaction(btn.dataset.id, "approve"));
+  });
+  document.querySelectorAll(".reject-btn").forEach(btn => {
+    btn.addEventListener("click", () => updateTransaction(btn.dataset.id, "reject"));
   });
 }
 
@@ -165,17 +181,34 @@ function applyFilters() {
 
   let filtered = allTransactions;
 
-  if (type) {
-    filtered = filtered.filter(tx => tx.type === type);
-  }
-
-  if (status) {
-    filtered = filtered.filter(tx => tx.status === status);
-  }
+  if (type) filtered = filtered.filter(tx => tx.type === type);
+  if (status) filtered = filtered.filter(tx => tx.status === status);
 
   renderTransactions(filtered);
 }
+
+async function updateTransaction(transactionId, action) {
+  try {
+    const res = await fetch("/admin/update-transaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transactionId: Number(transactionId), action })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      alert(`Transaction ${action}d successfully`);
+      loadTransactions(); // reload updated transactions
+    } else {
+      alert(`Failed to ${action}: ${data.message}`);
+    }
+  } catch (err) {
+    console.error(`Error ${action} transaction:`, err);
+    alert(`Error ${action} transaction. See console for details.`);
+  }
+}
 </script>
+
 
 <script>
 const tbody = document.querySelector("#transactions tbody");
