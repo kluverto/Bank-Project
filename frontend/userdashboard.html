@@ -128,9 +128,7 @@
     });
   </script>
   <script>
-    const params = new URLSearchParams(window.location.search);
     const email = localStorage.getItem("userEmail");
-
     if (!email) {
       alert("You are not logged in!");
       window.location.href = "signin.html";
