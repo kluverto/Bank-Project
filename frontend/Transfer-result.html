@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>United Bank - Transfer Result</title>
+  <link rel="stylesheet" href="userdashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <style>
+    .receipt-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .receipt-header {
+      text-align: center;
+      border-bottom: 2px dashed #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .receipt-header h2 {
+      margin: 0;
+    }
+
+    .receipt-details {
+      margin-top: 20px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .status-success {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-failed {
+      color: red;
+      font-weight: bold;
+    }
+
+    .print-btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    @media print {
+      .print-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <section class="nav-bar">
+      <div class="hero-image">
+        <a href ="index.html"><img src="images/united bank.png" alt="United Bank" width="200" height="200"></a>
+      </div>
+      <button class="menu-toggle">&#9776;</button>
+      <div class="nav">
+        <ul>
+          <li><a href="userdashboard.html">Dashboard</a></li>
+          <li><a href="transactions.html">Transactions</a></li>
+          <li><a href="transfer.html">Transfer</a></li>
+          <li><a href="signin.html">Logout</a></li>
+        </ul>
+      </div>
+    </section>
+  </header>
+  <!--Main Content Area -->
+<main>
+  <div class="receipt-container">
+
+    <div class="receipt-header">
+      <h2><i class="fa fa-receipt"></i> Transaction Receipt</h2>
+      <p>United Bank Official Confirmation</p>
+    </div>
+
+    <div class="receipt-details">
+
+      <div class="receipt-row">
+        <span>Transaction Reference:</span>
+        <span id="ref"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Sender Email:</span>
+        <span id="email"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>From Account:</span>
+        <span id="fromAccount"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Recipient Bank:</span>
+        <span id="recipientBank"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Recipient Account:</span>
+        <span id="recipientAccount"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Amount:</span>
+        <span id="amount"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Date & Time:</span>
+        <span id="date"></span>
+      </div>
+
+      <div class="receipt-row">
+        <span>Status:</span>
+        <span id="status"></span>
+      </div>
+
+    </div>
+
+    <button onclick="window.print()" class="action-btn print-btn">
+      <i class="fa fa-print"></i> Print Receipt
+    </button>
+
+  </div>
+</main>
+  <!-- Footer -->
+  <footer>
+        <div class="footer-container">
+            <h4>Contact Us</h4>
+            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <nav>
+                <ul>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Terms of Service</a></li>
+                    <li><a href="">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="social-media">
+            <a href="facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>        
+  </footer>
+</body>
+</html>
