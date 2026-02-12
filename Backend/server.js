@@ -788,13 +788,6 @@ app.get("/api/receipt/:ref/:email", async (req, res) => {
     }
 
     const transaction = result.rows[0];
-
-    // SECURITY: only sender can view this receipt
-    // Assuming you store logged-in user's email in session
-    if (transaction.email !== req.session.email) {
-      return res.status(403).json({ success: false, message: "Unauthorized" });
-    }
-
     res.json({ success: true, transaction });
 
   } catch (err) {
