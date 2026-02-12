@@ -740,7 +740,7 @@ app.post("/transfer", async (req, res) => {
 });
 
 // Open Receipt page
-app.get("/receipt/:ref", async (req, res) => {
+/*app.get("/receipt/:ref", async (req, res) => {
   try {
     const ref = req.params.ref;
     const email = req.params.email;
@@ -765,7 +765,7 @@ app.get("/receipt/:ref", async (req, res) => {
     console.error("Receipt error:", err);
     res.status(500).send("Server error");
   }
-});
+});*/
 
 app.get("/receipt/:ref", (req, res) => {
   res.sendFile(__dirname + "/frontend/receipt.html");
