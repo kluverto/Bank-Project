@@ -767,7 +767,7 @@ app.get("/receipt/:ref/:email", async (req, res) => {
   }
 });
 
-app.get("/receipt/:ref", (req, res) => {
+app.get("/receipt/:ref/:email", (req, res) => {
   res.sendFile(__dirname + "/frontend/receipt.html");
 });
 
@@ -779,11 +779,8 @@ app.get("/api/receipt/:ref/:email", async (req, res) => {
   try {
     // Get transaction from DB
     const result = await db.query(
-      `SELECT t.*, u.firstname, u.secondname, u.account_number, u.email
-       FROM transactions t
-       JOIN user_profile u ON t.email = u.email
-       WHERE t.transaction_ref = $1`,
-      [ref]
+      "SELECT * FROM transactions WHERE transaction_ref = $1 AND email = $2",
+      [ref, email]
     );
 
     if (result.rows.length === 0) {
