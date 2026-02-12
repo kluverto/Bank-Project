@@ -740,9 +740,10 @@ app.post("/transfer", async (req, res) => {
 });
 
 // Open Receipt page
-app.get("/receipt/:ref", async (req, res) => {
+app.get("/receipt/:ref/:email", async (req, res) => {
   try {
     const ref = req.params.ref;
+    const email = req.params.email;
 
     const result = await db.query(
       "SELECT * FROM transactions WHERE transaction_ref = $1",
