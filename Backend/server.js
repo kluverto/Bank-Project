@@ -628,6 +628,7 @@ app.post("/transfer", async (req, res) => {
   try {
     const { email, fromAccount, recipientBank, recipientAccount, amount } = req.body;
     const amt = parseFloat(amount);
+    
 
     if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt) {
       return res.status(400).json({ success: false, message: "All fields required" });
@@ -739,9 +740,32 @@ app.post("/transfer", async (req, res) => {
 });
 
 // Open Receipt page
-app.get("/receipt/:ref", (req, res) => {
-  res.sendFile(__dirname + "/frontend/receipt.html");
+app.get("/receipt/:ref", async (req, res) => {
+  try {
+    const ref = req.params.ref;
+
+    const result = await db.query(
+      "SELECT * FROM transactions WHERE transaction_ref = $1",
+      [ref]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Receipt not found");
+    }
+
+    const tx = result.rows[0];
+
+    res.json({
+      success: true,
+      transaction: tx
+    });
+
+  } catch (err) {
+    console.error("Receipt error:", err);
+    res.status(500).send("Server error");
+  }
 });
+
 
 // Fetch transaction data for receipt
 app.get("/api/receipt/:ref/:email", async (req, res) => {
