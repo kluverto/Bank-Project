@@ -740,7 +740,7 @@ app.post("/transfer", async (req, res) => {
 });
 
 // Open Receipt page
-app.get("/receipt/:ref/:email", async (req, res) => {
+app.get("/receipt/:ref", async (req, res) => {
   try {
     const ref = req.params.ref;
     const email = req.params.email;
