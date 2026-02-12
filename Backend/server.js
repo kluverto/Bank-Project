@@ -767,13 +767,13 @@ app.get("/receipt/:ref/:email", async (req, res) => {
   }
 });
 
-app.get("/receipt/:ref/:email", (req, res) => {
+app.get("/receipt/:ref", (req, res) => {
   res.sendFile(__dirname + "/frontend/receipt.html");
 });
 
 
 // Fetch transaction data for receipt
-app.get("/api/receipt/:ref/:email", async (req, res) => {
+app.get("/api/receipt/:ref", async (req, res) => {
   const { ref, email } = req.params;
 
   try {
