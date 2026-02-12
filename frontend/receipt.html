@@ -160,31 +160,49 @@
         </div>        
   </footer>
 
-  <script>
-  const params = new URLSearchParams(window.location.search);
+<script>
+    const transactionRef = window.location.pathname.split("/").pop();
+    const email = localStorage.getItem("userEmail");
 
-  // Get values from URL
-  const ref = params.get("ref") || "TXN" + Math.floor(Math.random()*1000000);
-  const email = params.get("email") || "N/A";
-  const fromAccount = params.get("from") || "N/A";
-  const recipientBank = params.get("bank") || "N/A";
-  const recipientAccount = params.get("account") || "N/A";
-  const amount = params.get("amount") || "0.00";
-  const status = params.get("status") || "Success";
+    if (!email) {
+    alert("User not logged in");
+    window.location.href = "signin.html";
+    }
 
-  document.getElementById("ref").textContent = ref;
-  document.getElementById("email").textContent = email;
-  document.getElementById("fromAccount").textContent = fromAccount;
-  document.getElementById("recipientBank").textContent = recipientBank;
-  document.getElementById("recipientAccount").textContent = recipientAccount;
-  document.getElementById("amount").textContent = "$" + amount;
-  document.getElementById("date").textContent = new Date().toLocaleString();
+    async function loadReceipt() {
+    try {
+        const res = await fetch(`/api/receipt/${transactionRef}/${email}`);
+        const data = await res.json();
 
-  const statusEl = document.getElementById("status");
-  statusEl.textContent = status;
-  statusEl.className = status.toLowerCase() === "success" 
-    ? "status-success" 
-    : "status-failed";
+        if (!data.success) {
+        alert(data.message);
+        return;
+        }
+
+        const t = data.transaction;
+
+        document.getElementById("ref").textContent = t.transaction_ref;
+        document.getElementById("email").textContent = t.email;
+        document.getElementById("fromAccount").textContent = t.account_number;
+        document.getElementById("amount").textContent = "$" + t.amount;
+        document.getElementById("date").textContent =
+        new Date(t.date).toLocaleString();
+
+        const statusEl = document.getElementById("status");
+        statusEl.textContent = t.status;
+
+        statusEl.className =
+        t.status === "completed"
+            ? "status-success"
+            : "status-failed";
+
+    } catch (err) {
+        console.error("Error loading receipt:", err);
+        alert("Failed to load receipt");
+    }
+    }
+
+    loadReceipt();
 </script>
 
 </body>

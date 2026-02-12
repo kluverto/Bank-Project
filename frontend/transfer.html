@@ -203,29 +203,22 @@ transferForm.addEventListener("submit", async (e) => {
 
     const data = await res.json();
 
-    if (data.success) {
-      // Show message based on transaction status
-      if (data.message.includes("pending")) {
-        messageBox.innerHTML = `<p style='color:orange;'>${data.message}</p>`;
+  if (data.success) {
+
+        // Redirect to receipt page
+        window.location.href = `/receipt/${data.transactionRef}`;
+
+        return;
       } else {
-        messageBox.innerHTML = `<p style='color:green;'>${data.message}</p>`;
+        messageBox.innerHTML = `<p style='color:red;'>${data.message}</p>`;
       }
 
-      transferForm.reset();
+        transferForm.reset();
 
-      // 🔄 Reload updated balances if transaction completed
-      if (data.newBalance !== undefined) {
-        loadUser(); // This should re-fetch and display user balances
+      } catch (err) {
+        console.error("Transfer error:", err);
+        messageBox.innerHTML = "<p style='color:red;'>An error occurred. Please try again.</p>";
       }
-
-    } else {
-      messageBox.innerHTML = `<p style='color:red;'>${data.message}</p>`;
-    }
-
-  } catch (err) {
-    console.error("Transfer error:", err);
-    messageBox.innerHTML = "<p style='color:red;'>Transfer failed. Try again.</p>";
-  }
 });
 </script>
 

@@ -616,6 +616,13 @@ app.post("/admin/update-transaction", async (req, res) => {
   }
 });
 
+// Generate Transaction reference
+function generateTransactionRef() {
+  const random = Math.floor(100000 + Math.random() * 900000);
+  return `TXN-${Date.now()}-${random}`;
+}
+
+
 // USER TRANSFER ROUTE
 app.post("/transfer", async (req, res) => {
   try {
@@ -660,6 +667,9 @@ app.post("/transfer", async (req, res) => {
     );
     const completedTxCount = parseInt(txCountResult.rows[0].count);
 
+    //Generate transaction reference
+    const transactionRef = generateTransactionRef();
+
     // Determine transaction status
     let status = "completed";
     if (completedTxCount >= 4) {
@@ -685,9 +695,10 @@ app.post("/transfer", async (req, res) => {
     // Insert transaction record
     await db.query(
       `INSERT INTO transactions
-       (email, account_number, type, amount, status, description, date)
-       VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
+       (transaction_ref, email, account_number, type, amount, status, description, date)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
       [
+        transactionRef,
         email,
         user.account_number,
         "debit",
@@ -716,8 +727,10 @@ app.post("/transfer", async (req, res) => {
       message: status === "completed"
         ? "Transfer successful"
         : "Transaction pending, waiting for approval",
-      newBalance
+      newBalance,
+      transactionRef
     });
+
 
   } catch (err) {
     console.error("Transfer error:", err);
@@ -725,6 +738,44 @@ app.post("/transfer", async (req, res) => {
   }
 });
 
+// Open Receipt page
+app.get("/receipt/:ref", (req, res) => {
+  res.sendFile(__dirname + "/frontend/receipt.html");
+});
+
+// Fetch transaction data for receipt
+app.get("/api/receipt/:ref/:email", async (req, res) => {
+  const { ref, email } = req.params;
+
+  try {
+    // Get transaction from DB
+    const result = await db.query(
+      `SELECT t.*, u.firstname, u.secondname, u.account_number, u.email
+       FROM transactions t
+       JOIN user_profile u ON t.email = u.email
+       WHERE t.transaction_ref = $1`,
+      [ref]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Receipt not found" });
+    }
+
+    const transaction = result.rows[0];
+
+    // SECURITY: only sender can view this receipt
+    // Assuming you store logged-in user's email in session
+    if (transaction.email !== req.session.email) {
+      return res.status(403).json({ success: false, message: "Unauthorized" });
+    }
+
+    res.json({ success: true, transaction });
+
+  } catch (err) {
+    console.error("Error fetching receipt:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 //image upload setup
 const storage = new CloudinaryStorage({
