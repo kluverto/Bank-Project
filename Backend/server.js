@@ -741,7 +741,7 @@ app.post("/transfer", async (req, res) => {
 
 
 app.get("/receipt/:ref", (req, res) => {
-  res.sendFile(__dirname + "/frontend/receipt.html");
+  res.sendFile(__dirname + "/../frontend/receipt.html");
 });
 
 
