@@ -753,9 +753,8 @@ app.get("/api/receipt/:ref", async (req, res) => {
     // Get transaction from DB
     const result = await db.query(
       "SELECT * FROM transactions WHERE transaction_ref = $1",
-      [ref, email]
+      [ref]
     );
-
     if (result.rows.length === 0) {
       return res.status(404).json({ success: false, message: "Receipt not found" });
     }
