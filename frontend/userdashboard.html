@@ -161,9 +161,9 @@
             // Fill transactions table
             const tbody = document.querySelector("#transactions tbody");
             tbody.innerHTML = ""; // clear old rows
-            if (Array.isArray(data.transactions) && data.transactions.length > 0)
-            data.transactions.forEach(tx => {
+            if (Array.isArray(data.transactions) && data.transactions.length > 0) data.transactions.forEach(tx => {
               const row = document.createElement("tr");
+
               row.innerHTML = `
                 <td>${tx.description}</td>
                 <td>${tx.type}</td>
@@ -171,6 +171,12 @@
                 <td>${tx.status}</td>
                 <td><small>${new Date(tx.date).toLocaleString()}</small></td>
               `;
+              // Make row clickable
+              row.style.cursor = "pointer";
+
+              row.addEventListener("click", () => {
+                window.location.href = `/receipt/${tx.transaction_ref}`;
+              });
               tbody.appendChild(row);
             });
             function viewReceipt(ref) {
