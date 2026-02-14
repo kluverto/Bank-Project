@@ -210,7 +210,7 @@ app.get("/dashboard/:email", async (req, res) => {
 
     // Fetch last 4 transactions
     const txResult = await db.query(
-      `SELECT description, type, amount, status, date, account_number 
+      `SELECT transaction_ref, description, type, amount, status, date, account_number, recipient_bank, recipient_account 
        FROM transactions 
        WHERE account_number = $1 
        ORDER BY date DESC 
