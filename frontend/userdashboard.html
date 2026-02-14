@@ -173,6 +173,11 @@
               `;
               tbody.appendChild(row);
             });
+            function viewReceipt(ref) {
+              window.location.href = `/receipt/${ref}`;
+            }
+
+            loadTransactions();
 
           } else {
             document.getElementById("profile").innerHTML =

@@ -230,6 +230,27 @@ app.get("/dashboard/:email", async (req, res) => {
       .json({ success: false, message: "Server error" });
   }
 });
+//Frontend route for user transaction
+app.get("/api/transactions/:email", async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const result = await db.query(
+      `SELECT transaction_ref, type, amount, status, description, date
+       FROM transactions
+       WHERE email = $1
+       ORDER BY date DESC`,
+      [email]
+    );
+
+    res.json({ success: true, transactions: result.rows });
+
+  } catch (err) {
+    console.error("Error fetching transactions:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 // Admin stats route
 app.get("/admin/stats", async (req, res) => {
@@ -696,7 +717,7 @@ app.post("/transfer", async (req, res) => {
     // Insert transaction record
     await db.query(
       `INSERT INTO transactions
-       (transaction_ref, email, account_number, type, amount, status, description, date)
+       (transaction_ref, email, account_number, type, amount, status, description, recipient_bank, recipient_account_number, date)
        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
       [
         transactionRef,
@@ -705,7 +726,9 @@ app.post("/transfer", async (req, res) => {
         "debit",
         amt,
         status,
-        `Transfer to ${recipientBank} (${recipientAccount})`
+        `Transfer to ${recipientBank} (${recipientAccount})`,
+        recipientBank,
+        recipientAccount
       ]
     );
 
