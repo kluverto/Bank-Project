@@ -646,12 +646,13 @@ function generateTransactionRef() {
 
 // USER TRANSFER ROUTE
 app.post("/transfer", async (req, res) => {
+  console.log(req.body);
   try {
-    const { email, fromAccount, recipientBank, recipientAccount, amount } = req.body;
+    const { email, fromAccount, recipientBank, recipientAccount, recipientName, amount, description } = req.body;
     const amt = parseFloat(amount);
     
 
-    if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt) {
+    if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt || !recipientName || !description) {
       return res.status(400).json({ success: false, message: "All fields required" });
     }
 
