@@ -184,7 +184,7 @@
         document.getElementById("ref").textContent = t.transaction_ref;
         document.getElementById("email").textContent = t.email;
         document.getElementById("fromAccount").textContent = t.account_number;
-        document.getElementById("recipientbank").textContent = t.recipient_bank;
+        document.getElementById("recipientBank").textContent = t.recipient_bank;
         document.getElementById("recipientAccount").textContent = t.recipient_account_number;
         document.getElementById("amount").textContent = "$" + t.amount;
         document.getElementById("date").textContent =
@@ -202,7 +202,7 @@
         console.error("Error loading receipt:", err);
         alert("Failed to load receipt");
     }
-    }
+  }
 
     loadReceipt();
 </script>
