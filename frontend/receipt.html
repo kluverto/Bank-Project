@@ -106,6 +106,11 @@
       </div>
 
       <div class="receipt-row">
+        <span>Recipient Name:</span>
+        <span id="recipientName"></span>
+      </div>
+
+      <div class="receipt-row">
         <span>Recipient Bank:</span>
         <span id="recipientBank"></span>
       </div>
@@ -184,8 +189,9 @@
         document.getElementById("ref").textContent = t.transaction_ref;
         document.getElementById("email").textContent = t.email;
         document.getElementById("fromAccount").textContent = t.account_number;
+        document.getElementById("recipientName").textContent = t.recipient_name;
         document.getElementById("recipientBank").textContent = t.recipient_bank;
-        document.getElementById("recipientAccount").textContent = t.recipient_account_number;
+        document.getElementById("recipientAccount").textContent = t.recipient_account;
         document.getElementById("amount").textContent = "$" + t.amount;
         document.getElementById("date").textContent =
         new Date(t.date).toLocaleString();

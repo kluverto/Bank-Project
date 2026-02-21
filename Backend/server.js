@@ -717,8 +717,8 @@ app.post("/transfer", async (req, res) => {
     // Insert transaction record
     await db.query(
       `INSERT INTO transactions
-       (transaction_ref, email, account_number, type, amount, status, description, recipient_bank, recipient_account_number, date)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9NOW())`,
+       (transaction_ref, email, account_number, type, amount, status, description, recipient_bank, recipient_account, recipient_name, date)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())`,
       [
         transactionRef,
         email,
@@ -728,7 +728,8 @@ app.post("/transfer", async (req, res) => {
         status,
         description,
         recipientBank,
-        recipientAccount
+        recipientAccount,
+        recipientName
       ]
     );
 
