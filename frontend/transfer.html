@@ -179,6 +179,7 @@ transferForm.addEventListener("submit", async (e) => {
   const recipientName = document.getElementById("recipientName").value;
   const recipientAccount = document.getElementById("recipientAccount").value;
   const amount = document.getElementById("amount").value;
+  const description = document.getElementById("description").value;
 
   if (!email) {
     messageBox.innerHTML = "<p style='color:red;'>User email missing.</p>";
