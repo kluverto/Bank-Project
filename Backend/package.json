@@ -29,6 +29,7 @@
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.10",
+    "pdfkit": "^0.17.2",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "socket.io": "^4.8.1",
