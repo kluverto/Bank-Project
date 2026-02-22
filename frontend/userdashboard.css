@@ -461,6 +461,90 @@ tbody tr:hover {
   border-radius: 30px;
 }
 
+.transfer-form-container {
+  max-width: 500px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.transfer-form-container button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.receipt-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.receipt-header {
+  text-align: center;
+  border-bottom: 2px dashed #ddd;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.receipt-header h2 {
+  margin: 0;
+}
+
+.receipt-details {
+  margin-top: 20px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.status-success {
+  color: green;
+  font-weight: bold;
+}
+
+.status-failed {
+  color: red;
+  font-weight: bold;
+}
+
+.print-btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media print {
+  .print-btn {
+    display: none;
+  }
+}
 /* Footer */
 footer {
     background: linear-gradient(100deg, #e6f4ea, #86d29a);
@@ -572,87 +656,3 @@ footer nav ul {
   }
 }
 
-.transfer-form-container {
-  max-width: 500px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.transfer-form-container button {
-  width: 100%;
-  margin-top: 10px;
-}
-
-    .receipt-container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .receipt-header {
-      text-align: center;
-      border-bottom: 2px dashed #ddd;
-      padding-bottom: 15px;
-      margin-bottom: 20px;
-    }
-
-    .receipt-header h2 {
-      margin: 0;
-    }
-
-    .receipt-details {
-      margin-top: 20px;
-    }
-
-    .receipt-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-      padding: 8px 0;
-      border-bottom: 1px solid #f1f1f1;
-    }
-
-    .status-success {
-      color: green;
-      font-weight: bold;
-    }
-
-    .status-failed {
-      color: red;
-      font-weight: bold;
-    }
-
-    .print-btn {
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    @media print {
-      .print-btn {
-        display: none;
-      }
-    }
