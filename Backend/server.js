@@ -18,7 +18,8 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
 //middleware
 app.use(bodyparser.json());
@@ -825,6 +826,53 @@ app.post("/upload-profile-pic", upload.single("image"), async (req, res) => {
   }
 });
 
+app.get("/api/receipt/:ref/pdf", async (req, res) => {
+  const ref = req.params.ref;
+
+  // Fetch transaction from DB
+  const transaction = await getTransactionFromDB(ref);
+
+  if (!transaction) {
+    return res.status(404).send("Receipt not found");
+  }
+
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename=Receipt-${ref}.pdf`
+  );
+
+  const doc = new PDFDocument({ size: "A4", margin: 50 });
+
+  doc.pipe(res);
+
+  // Bank Header
+  doc.fontSize(18).text("UNITED BANK", { align: "center" });
+  doc.moveDown();
+  doc.fontSize(12).text("Official Transaction Receipt", { align: "center" });
+
+  doc.moveDown(2);
+
+  doc.fontSize(12);
+  doc.text(`Transaction Ref: ${transaction.transaction_ref}`);
+  doc.text(`Sender: ${transaction.email}`);
+  doc.text(`From Account: ${transaction.account_number}`);
+  doc.text(`Recipient: ${transaction.recipient_name}`);
+  doc.text(`Recipient Bank: ${transaction.recipient_bank}`);
+  doc.text(`Recipient Account: ${transaction.recipient_account}`);
+  doc.text(`Amount: $${transaction.amount}`);
+  doc.text(`Date: ${new Date(transaction.date).toLocaleString()}`);
+  doc.text(`Status: ${transaction.status}`);
+
+  doc.moveDown(3);
+
+  doc.fontSize(10).text(
+    "This document is electronically generated and does not require a signature.",
+    { align: "center" }
+  );
+
+  doc.end();
+});
 
 
 //server frontend

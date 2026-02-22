@@ -12,15 +12,13 @@
   <header>
     <section class="nav-bar">
       <div class="hero-image">
-        <a href ="index.html"><img src="images/united bank.png" alt="United Bank" width="200" height="200"></a>
+        <a href ="index.html"><img src="/images/united bank.png" alt="United Bank" width="200" height="200"></a>
       </div>
       <button class="menu-toggle">&#9776;</button>
       <div class="nav">
         <ul>
-          <li><a href="userdashboard.html">Dashboard</a></li>
-          <li><a href="transactions.html">Transactions</a></li>
-          <li><a href="transfer.html">Transfer</a></li>
-          <li><a href="signin.html">Logout</a></li>
+          <li><a href="/userdashboard.html">Dashboard</a></li>
+          <li><a href="/signin.html">Logout</a></li>
         </ul>
       </div>
     </section>
@@ -110,8 +108,8 @@
         contact customer support immediately.
       </div>
 
-      <button onclick="window.print()" class="action-btn print-btn">
-        <i class="fa fa-print"></i> Print Receipt
+      <button id="downloadpdf" class="action-btn">
+        <i class="fa fa-download"></i> Download Receipt
       </button>
 
     </div>
@@ -143,6 +141,11 @@
     const nav = document.querySelector('.nav');
     toggle.addEventListener('click', () => {
         nav.classList.toggle('open');
+    });
+
+    document.getElementById("downloadpdf").addEventListener("click", () => {
+      const ref = document.getElementById("ref").textContent;
+      window.location.href = `/api/receipt/${ref}/pdf`;
     });
   </script>
   <script>
