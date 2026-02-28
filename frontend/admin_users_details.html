@@ -19,19 +19,27 @@
       </div>
       <div class="nav">
         <ul>
-          <li><a href="admin.html">Dashboard</a></li>
-          <li><a href="manage_users.html" class="active">Users</a></li>
-          <li><a href="transactions.html">Transactions</a></li>
-          <li><a href="reports.html">Reports</a></li>
-          <li><a href="settings.html">Settings</a></li>
-          <li class="logout"><a href="signin.html">Logout</a></li>
+          <li><a href="admin.html" data-i18n="admin.dashboard">Dashboard</a></li>
+          <li><a href="manage_users.html" class="active" data-i18n="admin.users">Users</a></li>
+          <li><a href="transactions.html" data-i18n="admin.transactions">Transactions</a></li>
+          <li><a href="reports.html" data-i18n="admin.reports">Reports</a></li>
+          <li><a href="settings.html" data-i18n="admin.settings">Settings</a></li>
+          <li class="logout"><a href="signin.html" data-i18n="nav.logout">Logout</a></li>
         </ul>
+      </div>
+      <div class="language-selector">
+        <label for="language-select" data-i18n="lang.label">Language:</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
     </section>
   </header>
 
 <body>
-  <h1>User Details</h1>
+  <h1 data-i18n="userDetails.title">User Details</h1>
   <form id="userForm">
     <input type="text" name="firstname" placeholder="First Name">
     <input type="text" name="secondname" placeholder="Second Name">
@@ -47,14 +55,14 @@
   <!-- Footer -->
   <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2025 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2025 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -66,6 +74,7 @@
         </div>        
     </footer>
 
+  <script src="lang.js"></script>
   <script>
     const params = new URLSearchParams(window.location.search);
     const accountNumber = params.get("account");

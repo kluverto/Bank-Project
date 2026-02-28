@@ -17,11 +17,19 @@
       <button class="menu-toggle">&#9776;</button>
       <div class="nav">
         <ul>
-          <li><a href="userdashboard.html">Dashboard</a></li>
-          <li><a href="transactions.html">Transactions</a></li>
-          <li><a href="transfer.html">Transfer</a></li>
-          <li><a href="signin.html">Logout</a></li>
+          <li><a href="userdashboard.html" data-i18n="nav.dashboard">Dashboard</a></li>
+          <li><a href="transactions.html" data-i18n="nav.transactions">Transactions</a></li>
+          <li><a href="transfer.html" data-i18n="nav.transfer">Transfer</a></li>
+          <li><a href="signin.html" data-i18n="nav.logout">Logout</a></li>
         </ul>
+      </div>
+      <div class="language-selector">
+        <label for="language-select" data-i18n="lang.label">Language:</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
     </section>
   </header>
@@ -38,39 +46,39 @@
         </label>
         <input type="file" id="profileUpload" accept="image/*" hidden/>
       </div>
-      <h2>Welcome back </h2> <h2 class="user-name"></h2> <h2 class="user-number"></h2>
-      <p>Your financial summary at a glance.</p>
+      <h2 data-i18n="dashboard.welcome">Welcome back </h2> <h2 class="user-name"></h2> <h2 class="user-number"></h2>
+      <p data-i18n="dashboard.summary">Your financial summary at a glance.</p>
 
       <div class="cards-container">
         <div class="card">
           <i class="fa fa-wallet"></i>
-          <h3>Account Balance</h3>
+          <h3 data-i18n="dashboard.accountBal">Account Balance</h3>
           <p class="user-balance"></p>
         </div>
         <div class="card">
           <i class="fa fa-piggy-bank"></i>
-          <h3>Savings Balance</h3>
+          <h3 data-i18n="dashboard.savingsBal">Savings Balance</h3>
           <p class="user-savings"></p>
         </div>
         <div class="card">
           <i class="fa fa-credit-card"></i>
-          <h3>Credit Card</h3>
-          <p class="user-card"> due</p>
+          <h3 data-i18n="dashboard.creditCard">Credit Card</h3>
+          <p class="user-card"> <span data-i18n="dashboard.due">due</span></p>
         </div>
       </div>
     </section>
 
     <section class="quick-actions">
-      <h3>Quick Actions</h3>
+      <h3 data-i18n="dashboard.quickActions">Quick Actions</h3>
       <div class="actions-grid">
-        <a href="transfer.html" class="action-btn"><i class="fa fa-exchange-alt"></i> Transfer Funds</a>
-        <a href="payments.html" class="action-btn"><i class="fa fa-file-invoice"></i> Pay Bills</a>
-        <a href="accounts.html" class="action-btn"><i class="fa fa-university"></i> View Accounts</a>
+        <a href="transfer.html" class="action-btn"><i class="fa fa-exchange-alt"></i> <span data-i18n="dashboard.transfer">Transfer Funds</span></a>
+        <a href="payments.html" class="action-btn"><i class="fa fa-file-invoice"></i> <span data-i18n="dashboard.payBills">Pay Bills</span></a>
+        <a href="accounts.html" class="action-btn"><i class="fa fa-university"></i> <span data-i18n="dashboard.viewAccounts">View Accounts</span></a>
       </div>
     </section>
 
     <section class="recent-trans">
-      <h3>Recent Transactions</h3>
+      <h3 data-i18n="dashboard.recentTrans">Recent Transactions</h3>
       <table id="transactions">
         <thead>
           <tr>
@@ -102,14 +110,14 @@
   <!-- Footer -->
   <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -127,6 +135,7 @@
         nav.classList.toggle('open');
     });
   </script>
+  <script src="lang.js"></script>
   <script>
     const email = localStorage.getItem("userEmail");
     if (!email) {

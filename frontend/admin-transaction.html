@@ -17,34 +17,42 @@
       <button class="menu-toggle">&#9776;</button>
       <div class="nav">
         <ul>
-          <li><a href="admin.html">Dashboard</a></li>
-          <li><a href="manage_users.html">Users</a></li>
-          <li><a href="admin-transaction.html">Transactions</a></li>
-          <li><a href="reports.html">Reports</a></li>
-          <li><a href="settings.html">Settings</a></li>
-          <li class="logout"><a href="signin.html">Logout</a></li>
+          <li><a href="admin.html" data-i18n="admin.dashboard">Dashboard</a></li>
+          <li><a href="manage_users.html" data-i18n="admin.users">Users</a></li>
+          <li><a href="admin-transaction.html" data-i18n="admin.transactions">Transactions</a></li>
+          <li><a href="reports.html" data-i18n="admin.reports">Reports</a></li>
+          <li><a href="settings.html" data-i18n="admin.settings">Settings</a></li>
+          <li class="logout"><a href="signin.html" data-i18n="nav.logout">Logout</a></li>
         </ul>
+      </div>
+      <div class="language-selector">
+        <label for="language-select" data-i18n="lang.label">Language:</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
     </section>
   </header>
 
 <main>
-  <h2>Admin Panel - All Transactions</h2>
+  <h2 data-i18n="adminTrans.title">Admin Panel - All Transactions</h2>
 <section class="filters">
   <select id="filterType">
-    <option value="">All Types</option>
-    <option value="credit">Credit</option>
-    <option value="debit">Debit</option>
+    <option value="" data-i18n="trans.allTypes">All Types</option>
+    <option value="credit" data-i18n="trans.credit">Credit</option>
+    <option value="debit" data-i18n="trans.debit">Debit</option>
   </select>
 
   <select id="filterStatus">
-    <option value="">All Status</option>
-    <option value="completed">Completed</option>
-    <option value="pending">Pending</option>
-    <option value="failed">Failed</option>
+    <option value="" data-i18n="trans.allStatus">All Status</option>
+    <option value="completed" data-i18n="trans.completed">Completed</option>
+    <option value="pending" data-i18n="trans.pending">Pending</option>
+    <option value="failed" data-i18n="trans.failed">Failed</option>
   </select>
 
-  <button onclick="applyFilters()">Apply Filter</button>
+  <button onclick="applyFilters()" data-i18n="trans.apply">Apply Filter</button>
 </section>
 
 <section>
@@ -68,14 +76,14 @@
 <!-- Footer -->
   <footer>
     <div class="footer-container">
-        <h4>Contact Us</h4>
-        <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-        <p>&copy; 2025 United Bank. All rights reserved.</p>
+        <h4 data-i18n="footer.contact">Contact Us</h4>
+        <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+        <p data-i18n="footer.copyright">&copy; 2025 United Bank. All rights reserved.</p>
         <nav>
             <ul>
-                <li><a href="">Privacy Policy</a></li>
-                <li><a href="">Terms of Service</a></li>
-                <li><a href="">Contact Us</a></li>
+                <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
             </ul>
         </nav>
     </div>
@@ -86,6 +94,7 @@
         <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
     </div>        
   </footer>
+<script src="lang.js"></script>
 <script>
 let allTransactions = [];
 

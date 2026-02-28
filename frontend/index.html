@@ -12,16 +12,25 @@
     <header>
         <section class="nav-bar">
             <div class="hero-image">
-              <img src="images/united bank.png" alt="United Bank" width="300px", height="300px">
+              <img src="images/united bank.png" alt="United Bank" width="300px" height="300px">
             </div>
             <button class="menu-toggle">&#9776;</button>
             <div class="nav">
              <ul>
-                <li><a href="signin.html">Sign-in</a></li>
-                <li><a href="">About us</a></li>
-                <li><a href="">Services</a></li>
-                <li><a href="">Support</a></li>
+                <li><a href="signin.html" data-i18n="nav.signin">Sign-in</a></li>
+                <li><a href="" data-i18n="nav.about">About us</a></li>
+                <li><a href="" data-i18n="nav.services">Services</a></li>
+                <li><a href="" data-i18n="nav.support">Support</a></li>
               </ul>
+            </div>
+            <!-- language selector -->
+            <div class="language-selector">
+                <label for="language-select" data-i18n="lang.label">Language:</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
             </div>
         </section>
     </header>
@@ -30,41 +39,41 @@
         <section class="main-content">
             <a href="about.html"><div class="welcome-message">
               <ul>
-                <p>What we offer:</p>
-                <li>Advanced encryption to keep transactions safe.</li>
-                <li>Real-time fraud monitoring with instant alerts.</li>
-                <li>Decades of proven track record in the banking industry.</li>
-                <li>Global network of branches/ATMs for easy access.</li>
-                <li>24/7 customer service with dedicated relationship managers.</li>
-                <li>Personalized financial advice from certified experts.</li>
-                <li>Exclusive rewards & benefits tailored to lifestyle.</li>
-                <li>Fast approvals & easy onboarding for new accounts.</li>
-                <li>Clear, upfront fees with no hidden charges.</li>
+                <p data-i18n="offers.title">What we offer:</p>
+                <li data-i18n="offers.encryption">Advanced encryption to keep transactions safe.</li>
+                <li data-i18n="offers.monitoring">Real-time fraud monitoring with instant alerts.</li>
+                <li data-i18n="offers.trackrecord">Decades of proven track record in the banking industry.</li>
+                <li data-i18n="offers.network">Global network of branches/ATMs for easy access.</li>
+                <li data-i18n="offers.service">24/7 customer service with dedicated relationship managers.</li>
+                <li data-i18n="offers.advice">Personalized financial advice from certified experts.</li>
+                <li data-i18n="offers.rewards">Exclusive rewards & benefits tailored to lifestyle.</li>
+                <li data-i18n="offers.approvals">Fast approvals & easy onboarding for new accounts.</li>
+                <li data-i18n="offers.fees">Clear, upfront fees with no hidden charges.</li>
               </ul>
             </div></a>
         <div class="image-container">
-            <a href="signup.html"><img src="images/join_us.jpg" alt="join us", width="600px"></a>
+            <a href="signup.html"><img src="images/join_us.jpg" alt="join us" width="600px"></a>
         </div>    
         </section>
         <section class="services">
-                <h3>Our Services include:</h3>
-                <div><a href="signin.html">Personal Banking</a></div>
-                <div><a href="">Investments Services</a></div>
-                <div><a href="">Pension Funds</a></div>
+                <h3 data-i18n="services.title">Our Services include:</h3>
+                <div><a href="signin.html" data-i18n="services.personal">Personal Banking</a></div>
+                <div><a href="" data-i18n="services.investments">Investments Services</a></div>
+                <div><a href="" data-i18n="services.pension">Pension Funds</a></div>
         </section>
         
     </main>
     <!--footer-->
     <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -76,6 +85,7 @@
         </div>        
     </footer>
     
+    <script src="lang.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

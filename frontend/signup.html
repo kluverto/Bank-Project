@@ -16,19 +16,27 @@
             <button class="menu-toggle">&#9776;</button>   
             <div class="nav">
              <ul>
-                <li><a href="signin.html">Sign-in</a></li>
-                <li><a href="">About us</a></li>
-                <li><a href="">Services</a></li>
-                <li><a href="">Support</a></li>
+                <li><a href="signin.html" data-i18n="nav.signin">Sign-in</a></li>
+                <li><a href="" data-i18n="nav.about">About us</a></li>
+                <li><a href="" data-i18n="nav.services">Services</a></li>
+                <li><a href="" data-i18n="nav.support">Support</a></li>
               </ul>
+            </div>
+            <div class="language-selector">
+                <label for="language-select" data-i18n="lang.label">Language:</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
             </div>
         </section>
     </header>
 
     <main>
         <section class="signup-form">
-            <h1>Join United Bank</h1>
-            <p><i>Banking without compromise — your gateway to prestige, security, and growth.</i></p>
+            <h1 data-i18n="signup.title">Join United Bank</h1>
+            <p><i data-i18n="signup.tagline">Banking without compromise — your gateway to prestige, security, and growth.</i></p>
             <div class="neat">
                 <form class="form" method="post">
                     <label for="First name">First name:</label>
@@ -37,7 +45,7 @@
                     <label for="Second name">Second name:</label>
                     <input type="text" id="Second name" name="SecondName" required placeholder="Enter your second name">
                     <br>
-                    <label for="email">Email:</label>
+                    <label for="email" data-i18n="signup.email">Email:</label>
                     <input type="email" id="email" name="email" required placeholder="Enter your email eg:john@gmail.com">
                     <br>
                     <label for="phone-number">Phone Number:</label>
@@ -47,17 +55,17 @@
                     <input type="date" id="date-of-birth" name="dob" required>
                     <br>
                     <div class="password-container">
-                    <label for="password">Password:</label>
+                    <label for="password" data-i18n="signup.password">Password:</label>
                     <div class="input-wrapper"><input type="password" id="password" name="password" required placeholder="Enter your password"><span><i id="toggle" class="fa-solid fa-eye"></i></span></div>
                     <br>
-                    <label for="confirm-password">Confirm Password:</label>
+                    <label for="confirm-password" data-i18n="signup.confirm">Confirm Password:</label>
                     <div class="input-wrapper"><input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm password"><span><i id="ctoggle" class="fa-solid fa-eye"></i></span></div>
                     <br>
                     </div>
-                    <button type="submit" class="btn"><span>Sign Up</span></button>
+                    <button type="submit" class="btn"><span data-i18n="signup.submit">Sign Up</span></button>
                
                     <div class="agreement">
-                        <p>By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.</p>
+                        <p data-i18n="signup.agreement">By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>.</p>
                     </div>
              </form>
            </div>  
@@ -66,14 +74,14 @@
 
     <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -84,6 +92,7 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>    
     </footer>
+        <script src="lang.js"></script>
         <script>
             const toggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('.nav');

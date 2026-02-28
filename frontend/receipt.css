@@ -108,6 +108,21 @@ main {
 }
 
 /* ===== WATERMARK ===== */
+.receipt-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 120px;
+  font-weight: 900;
+  color: rgba(0, 77, 64, 0.08);
+  white-space: nowrap;
+  letter-spacing: 10px;
+  pointer-events: none;
+  z-index: 0;
+  text-transform: uppercase;
+}
+
 .receipt-container::after {
   content: "";
   position: absolute;
@@ -128,6 +143,8 @@ main {
   border-bottom: 3px solid #004d40;
   padding-bottom: 20px;
   margin-bottom: 35px;
+  position: relative;
+  z-index: 1;
 }
 
 .receipt-header h2 {
@@ -155,6 +172,8 @@ main {
 .document-title {
   text-align: center;
   margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .document-title h3 {
@@ -176,6 +195,8 @@ main {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 .receipt-row {
@@ -233,6 +254,8 @@ main {
   justify-content: space-between;
   font-size: 13px;
   color: #455a64;
+  position: relative;
+  z-index: 1;
 }
 
 .signature-block {
@@ -267,6 +290,8 @@ main {
   padding-top: 15px;
   text-align: center;
   line-height: 1.5;
+  position: relative;
+  z-index: 1;
 }
 
 /* ======================================

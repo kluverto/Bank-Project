@@ -17,27 +17,35 @@
       <button class="menu-toggle">&#9776;</button>
       <div class="nav">
         <ul>
-          <li><a href="userdashboard.html">Dashboard</a></li>
-          <li><a href="transactions.html">Transactions</a></li>
-          <li><a href="signin.html">Logout</a></li>
+          <li><a href="userdashboard.html" data-i18n="nav.dashboard">Dashboard</a></li>
+          <li><a href="transactions.html" data-i18n="nav.transactions">Transactions</a></li>
+          <li><a href="signin.html" data-i18n="nav.logout">Logout</a></li>
         </ul>
+      </div>
+      <div class="language-selector">
+        <label for="language-select" data-i18n="lang.label">Language:</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
       </div>
     </section>
   </header>
 
   <main>
     <div class="transfer-user-info">
-        <h3>Sender Details</h3>
-        <p><strong>Name:</strong> <span id="userName"></span></p>
-        <p><strong>Account Number:</strong> <span id="userAccount"></span></p>
-        <p><strong>Main Balance:</strong> $<span id="mainBalance"></span></p>
-        <p><strong>Savings Balance:</strong> $<span id="savingsBalance"></span></p>
-        <p><strong>Card Balance:</strong> $<span id="cardBalance"></span></p>
+        <h3 data-i18n="transfer.senderTitle">Sender Details</h3>
+        <p><strong data-i18n="transfer.name">Name:</strong> <span id="userName"></span></p>
+        <p><strong data-i18n="transfer.account">Account Number:</strong> <span id="userAccount"></span></p>
+        <p><strong data-i18n="transfer.mainBalance">Main Balance:</strong> $<span id="mainBalance"></span></p>
+        <p><strong data-i18n="transfer.savingsBalance">Savings Balance:</strong> $<span id="savingsBalance"></span></p>
+        <p><strong data-i18n="transfer.cardBalance">Card Balance:</strong> $<span id="cardBalance"></span></p>
     </div>
 
     <section class="user-overview">
-      <h2><i class="fa fa-exchange-alt"></i> Transfer Funds</h2>
-      <p>Send money securely to another bank account.</p>
+      <h2><i class="fa fa-exchange-alt"></i> <span data-i18n="transfer.title">Transfer Funds</span></h2>
+      <p data-i18n="transfer.desc">Send money securely to another bank account.</p>
 
       <div class="transfer-form-container">
         <form id="transferForm">
@@ -83,7 +91,7 @@
           </div>
 
           <button type="submit" class="action-btn">
-            <i class="fa fa-paper-plane"></i> Send
+            <i class="fa fa-paper-plane"></i> <span data-i18n="transfer.send">Send</span>
           </button>
 
         </form>
@@ -96,14 +104,14 @@
   <!-- Footer -->
   <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -116,6 +124,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="lang.js"></script>
   <script>
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.nav');
@@ -207,6 +216,10 @@ transferForm.addEventListener("submit", async (e) => {
     const data = await res.json();
 
   if (data.success) {
+        // Check if transaction is pending
+        if (data.status === "pending") {
+          alert("Transaction pending, waiting for approval");
+        }
 
         // Redirect to receipt page
         window.location.href = `/receipt/${data.transactionRef}`;

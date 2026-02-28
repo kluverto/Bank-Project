@@ -17,17 +17,25 @@
             </div>
             <div class="nav">
              <ul>
-                <li><a href="signup.html">Sign-up</a></li>
-                <li><a href="">About us</a></li>
-                <li><a href="">Services</a></li>
-                <li><a href="">Support</a></li>
+                <li><a href="signup.html" data-i18n="nav.signup">Sign-up</a></li>
+                <li><a href="" data-i18n="nav.about">About us</a></li>
+                <li><a href="" data-i18n="nav.services">Services</a></li>
+                <li><a href="" data-i18n="nav.support">Support</a></li>
               </ul>
+            </div>
+            <div class="language-selector">
+                <label for="language-select" data-i18n="lang.label">Language:</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
             </div>
         </section>
     </header>
     <main>
         <section class="about-section">
-            <h2>About United Bank</h2>
+            <h2 data-i18n="about.title">About United Bank</h2>
             <div class="about-us">
                 <div class="first">
                     <p><span>Building Financial Futures That Last</span><br>
@@ -93,14 +101,14 @@
         </section>
     <footer>
         <div class="footer-container">
-            <h4>Contact Us</h4>
-            <p id="email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
-            <p>&copy; 2026 United Bank. All rights reserved.</p>
+            <h4 data-i18n="footer.contact">Contact Us</h4>
+            <p id="email" data-i18n="footer.email">Email: <a href="mailto:unitedbnk@support.com">unitedbnk@support.com</a>
+            <p data-i18n="footer.copyright">&copy; 2026 United Bank. All rights reserved.</p>
             <nav>
                 <ul>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Terms of Service</a></li>
-                    <li><a href="">Contact Us</a></li>
+                    <li><a href="" data-i18n="footer.privacy">Privacy Policy</a></li>
+                    <li><a href="" data-i18n="footer.terms">Terms of Service</a></li>
+                    <li><a href="" data-i18n="footer.contactLink">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -111,5 +119,6 @@
             <a href="whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
         </div>    
     </footer>
+    <script src="lang.js"></script>
 </body>
 </html>

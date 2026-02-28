@@ -18,8 +18,7 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const PDFDocument = require("pdfkit");
-const fs = require("fs");
+
 
 //middleware
 app.use(bodyparser.json());
@@ -211,7 +210,7 @@ app.get("/dashboard/:email", async (req, res) => {
 
     // Fetch last 4 transactions
     const txResult = await db.query(
-      `SELECT transaction_ref, description, type, amount, status, date, account_number, recipient_bank, recipient_account 
+      `SELECT description, type, amount, status, date, account_number 
        FROM transactions 
        WHERE account_number = $1 
        ORDER BY date DESC 
@@ -231,27 +230,6 @@ app.get("/dashboard/:email", async (req, res) => {
       .json({ success: false, message: "Server error" });
   }
 });
-//Frontend route for user transaction
-app.get("/api/transactions/:email", async (req, res) => {
-  const { email } = req.params;
-
-  try {
-    const result = await db.query(
-      `SELECT transaction_ref, type, amount, status, description, date
-       FROM transactions
-       WHERE email = $1
-       ORDER BY date DESC`,
-      [email]
-    );
-
-    res.json({ success: true, transactions: result.rows });
-
-  } catch (err) {
-    console.error("Error fetching transactions:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
 
 // Admin stats route
 app.get("/admin/stats", async (req, res) => {
@@ -638,22 +616,13 @@ app.post("/admin/update-transaction", async (req, res) => {
   }
 });
 
-// Generate Transaction reference
-function generateTransactionRef() {
-  const random = Math.floor(100000 + Math.random() * 900000);
-  return `TXN-${Date.now()}-${random}`;
-}
-
-
 // USER TRANSFER ROUTE
 app.post("/transfer", async (req, res) => {
-  console.log(req.body);
   try {
-    const { email, fromAccount, recipientBank, recipientAccount, recipientName, amount, description } = req.body;
+    const { email, fromAccount, recipientBank, recipientName, recipientAccount, amount, description } = req.body;
     const amt = parseFloat(amount);
-    
 
-    if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt || !recipientName || !description) {
+    if (!email || !fromAccount || !recipientBank || !recipientAccount || !amt || !recipientName) {
       return res.status(400).json({ success: false, message: "All fields required" });
     }
 
@@ -691,9 +660,6 @@ app.post("/transfer", async (req, res) => {
     );
     const completedTxCount = parseInt(txCountResult.rows[0].count);
 
-    //Generate transaction reference
-    const transactionRef = generateTransactionRef();
-
     // Determine transaction status
     let status = "completed";
     if (completedTxCount >= 4) {
@@ -716,22 +682,25 @@ app.post("/transfer", async (req, res) => {
       );
     }
 
-    // Insert transaction record
+    // Generate transaction reference
+    const transactionRef = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+
+    // Insert transaction record with full details
     await db.query(
       `INSERT INTO transactions
-       (transaction_ref, email, account_number, type, amount, status, description, recipient_bank, recipient_account, recipient_name, date)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())`,
+       (email, account_number, type, amount, status, description, date, transaction_ref, recipient_name, recipient_bank, recipient_account)
+       VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7, $8, $9, $10)`,
       [
-        transactionRef,
         email,
         user.account_number,
         "debit",
         amt,
         status,
-        description,
+        description || `Transfer to ${recipientBank} (${recipientAccount})`,
+        transactionRef,
+        recipientName,
         recipientBank,
-        recipientAccount,
-        recipientName
+        recipientAccount
       ]
     );
 
@@ -753,11 +722,11 @@ app.post("/transfer", async (req, res) => {
       success: true,
       message: status === "completed"
         ? "Transfer successful"
-        : "Transaction pending, waiting for approval",
+        : "Transfer recorded as pending. Admin approval required",
       newBalance,
+      status,
       transactionRef
     });
-
 
   } catch (err) {
     console.error("Transfer error:", err);
@@ -766,90 +735,6 @@ app.post("/transfer", async (req, res) => {
 });
 
 
-app.get("/receipt/:ref", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "receipt.html"));
-});
-
-
-// Fetch transaction data for receipt
-app.get("/api/receipt/:ref", async (req, res) => {
-  const { ref } = req.params;
-
-  try {
-    // Get transaction from DB
-    const result = await db.query(
-      "SELECT * FROM transactions WHERE transaction_ref = $1",
-      [ref]
-    );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Receipt not found" });
-    }
-
-    const transaction = result.rows[0];
-    res.json({ success: true, transaction });
-
-  } catch (err) {
-    console.error("Error fetching receipt:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-// Download PDF receipt
-app.get("/api/receipt/:ref/pdf", async (req, res) => {
-  try {
-    const { ref } = req.params;
-
-    const result = await db.query(
-      "SELECT * FROM transactions WHERE transaction_ref = $1",
-      [ref]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).send("Receipt not found");
-    }
-
-    const transaction = result.rows[0];
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=UnitedBank-Receipt-${ref}.pdf`
-    );
-
-    const doc = new PDFDocument({ size: "A4", margin: 50 });
-    doc.pipe(res);
-
-    // Header
-    doc.fontSize(20).text("UNITED BANK", { align: "center" });
-    doc.moveDown();
-    doc.fontSize(12).text("Official Transaction Receipt", { align: "center" });
-    doc.moveDown(2);
-
-    // Body
-    doc.fontSize(12);
-    doc.text(`Transaction Reference: ${transaction.transaction_ref}`);
-    doc.text(`Sender Email: ${transaction.email}`);
-    doc.text(`From Account: ${transaction.account_number}`);
-    doc.text(`Recipient Name: ${transaction.recipient_name}`);
-    doc.text(`Recipient Bank: ${transaction.recipient_bank}`);
-    doc.text(`Recipient Account: ${transaction.recipient_account}`);
-    doc.text(`Amount: $${transaction.amount}`);
-    doc.text(`Date: ${new Date(transaction.date).toLocaleString()}`);
-    doc.text(`Status: ${transaction.status}`);
-
-    doc.moveDown(3);
-
-    doc.fontSize(10).text(
-      "This document is electronically generated by United Bank's secure core banking system.",
-      { align: "center" }
-    );
-
-    doc.end();
-
-  } catch (err) {
-    console.error("PDF generation error:", err);
-    res.status(500).send("Server error");
-  }
-});
 //image upload setup
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -881,6 +766,143 @@ app.post("/upload-profile-pic", upload.single("image"), async (req, res) => {
     res.status(500).json({ success: false, message: "Upload failed" });
   }
 });
+
+// GET RECEIPT DATA
+app.get("/api/receipt/:transactionRef", async (req, res) => {
+  try {
+    const { transactionRef } = req.params;
+
+    const result = await db.query(
+      `SELECT * FROM transactions WHERE transaction_ref = $1`,
+      [transactionRef]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Transaction not found" });
+    }
+
+    const transaction = result.rows[0];
+    res.json({ success: true, transaction });
+  } catch (err) {
+    console.error("Receipt fetch error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// GENERATE RECEIPT PDF
+app.get("/api/receipt/:transactionRef/pdf", async (req, res) => {
+  try {
+    const { transactionRef } = req.params;
+    const PDFDocument = require("pdfkit");
+
+    const result = await db.query(
+      `SELECT * FROM transactions WHERE transaction_ref = $1`,
+      [transactionRef]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Transaction not found" });
+    }
+
+    const t = result.rows[0];
+
+    // Create PDF
+    const doc = new PDFDocument({
+      size: "A4",
+      margin: 50
+    });
+
+    // Set response headers
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename="receipt-${transactionRef}.pdf"`);
+
+    // Pipe to response
+    doc.pipe(res);
+
+    // Add watermark
+    doc.opacity(0.08);
+    doc.fontSize(100).font("Helvetica-Bold");
+    doc.save();
+    doc.translate(doc.page.width / 2, doc.page.height / 2);
+    doc.rotate(45);
+    doc.text("CONFIDENTIAL", 0, 0, {
+      align: "center",
+      width: 500
+    });
+    doc.restore();
+    doc.opacity(1);
+
+    // Header
+    doc.fontSize(20).font("Helvetica-Bold").text("United Bank", { align: "center" });
+    doc.fontSize(10).font("Helvetica").text("Corporate Headquarters", { align: "center" });
+    doc.moveDown(0.5);
+
+    doc.fontSize(9).text("21 Financial District", 50, doc.y, { align: "center" });
+    doc.text("New York, NY 10005", { align: "center" });
+    doc.text("SWIFT: UNBKUS33", { align: "center" });
+    doc.moveDown(1);
+
+    // Title
+    doc.fontSize(14).font("Helvetica-Bold").text("OFFICIAL TRANSACTION RECEIPT", { align: "center" });
+    doc.fontSize(10).font("Helvetica").text("System Generated Confirmation", { align: "center" });
+    doc.moveDown(1);
+
+    // Divider line
+    doc.moveTo(50, doc.y).lineTo(545, doc.y).stroke();
+    doc.moveDown(0.8);
+
+    // Details
+    const details = [
+      ["Transaction Reference:", t.transaction_ref],
+      ["Sender Email:", t.email],
+      ["From Account:", t.account_number],
+      ["Recipient Name:", t.recipient_name || "N/A"],
+      ["Recipient Bank:", t.recipient_bank || "N/A"],
+      ["Recipient Account:", t.recipient_account || "N/A"],
+      ["Amount:", `$${parseFloat(t.amount).toFixed(2)}`],
+      ["Description:", t.description || "N/A"],
+      ["Date & Time:", new Date(t.date).toLocaleString()],
+      ["Status:", t.status.toUpperCase()]
+    ];
+
+    doc.fontSize(10).font("Helvetica");
+    details.forEach(([label, value]) => {
+      doc.text(`${label}`, 50, doc.y);
+      doc.text(value, 250, doc.y - 15, { width: 295, align: "left" });
+      doc.moveDown(0.8);
+    });
+
+    doc.moveDown(0.5);
+    doc.moveTo(50, doc.y).lineTo(545, doc.y).stroke();
+    doc.moveDown(0.8);
+
+    // Signature section
+    doc.fontSize(9).font("Helvetica");
+    doc.text("_____________________", 70, doc.y);
+    doc.text("Authorized Signatory", 70, doc.y + 15);
+
+    doc.text("DIGITALLY VERIFIED", 350, doc.y - 25, { align: "center", width: 195 });
+
+    doc.moveDown(2);
+
+    // Legal footer
+    doc.fontSize(8).font("Helvetica").text(
+      "This document is electronically generated by United Bank's core banking system. " +
+      "No physical signature is required. If you did not authorize this transaction, " +
+      "contact customer support immediately.",
+      50,
+      doc.y,
+      { width: 495, align: "left" }
+    );
+
+    doc.end();
+
+  } catch (err) {
+    console.error("PDF generation error:", err);
+    res.status(500).json({ success: false, message: "PDF generation failed" });
+  }
+});
+
 
 
 
