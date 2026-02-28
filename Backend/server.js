@@ -907,7 +907,12 @@ app.get("/api/receipt/:transactionRef/pdf", async (req, res) => {
 
 
 
-//server frontend
+// serve receipt page for any transaction reference (so links like /receipt/XYZ work)
+app.get('/receipt/:transactionRef', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/receipt.html'));
+});
+
+// serve frontend static assets
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 
