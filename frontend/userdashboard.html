@@ -183,6 +183,10 @@
               // Make row clickable
               row.style.cursor = "pointer";
               row.addEventListener("click", () => {
+                if (!tx.transaction_ref) {
+                  alert('No receipt available for this transaction');
+                  return;
+                }
                 window.location.href = `/receipt/${tx.transaction_ref}`;
               });
               tbody.appendChild(row);

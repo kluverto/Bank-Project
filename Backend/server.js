@@ -208,9 +208,10 @@ app.get("/dashboard/:email", async (req, res) => {
 
     const user = profileResult.rows[0];
 
-    // Fetch last 4 transactions
+    // Fetch last 5 transactions (including reference for receipts)
     const txResult = await db.query(
-      `SELECT description, type, amount, status, date, account_number 
+      `SELECT description, type, amount, status, date, account_number, transaction_ref,
+              recipient_name, recipient_bank, recipient_account
        FROM transactions 
        WHERE account_number = $1 
        ORDER BY date DESC 
@@ -221,7 +222,7 @@ app.get("/dashboard/:email", async (req, res) => {
     return res.json({
       success: true,
       user,
-      transactions: txResult.rows || [] // <-- return `transactions`
+      transactions: txResult.rows || [] // <-- return `transactions` with refs
     });
   } catch (err) {
     console.error("Dashboard error:", err);
