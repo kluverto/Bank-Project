@@ -456,7 +456,280 @@ const translations = {
     },
     "userList": {
       "title": "Tous les Utilisateurs Enregistrés",
-      "desc": "Voici la liste de tous les utilisateurs du système."    }
+      "desc": "Voici la liste de tous les utilisateurs du système."
+    }
+  },
+
+  pt: {
+    "nav": {
+      "signin": "Iniciar sessão",
+      "signup": "Registar-se",
+      "about": "Sobre nós",
+      "services": "Serviços",
+      "support": "Suporte",
+      "dashboard": "Painel",
+      "transactions": "Transações",
+      "transaction": "Transação",
+      "transfer": "Transferir",
+      "transfers": "Transferências",
+      "settings": "Definições",
+      "logout": "Terminar sessão"
+    },
+    "lang": {
+      "label": "Idioma:"
+    },
+    "offers": {
+      "title": "O que oferecemos:",
+      "encryption": "Encriptação avançada para manter as transações seguras.",
+      "monitoring": "Monitorização de fraude em tempo real com alertas instantâneos.",
+      "trackrecord": "Décadas de experiência comprovada no setor bancário.",
+      "network": "Rede global de agências/ATM para acesso fácil.",
+      "service": "Atendimento 24/7 com gestores dedicados.",
+      "advice": "Conselho financeiro personalizado por especialistas certificados.",
+      "rewards": "Recompensas e benefícios exclusivos adaptados ao seu estilo de vida.",
+      "approvals": "Aprovações rápidas e onboarding simples para novas contas.",
+      "fees": "Taxas claras desde o início, sem encargos ocultos."
+    },
+    "services": {
+      "title": "Os nossos serviços incluem:",
+      "personal": "Banca Pessoal",
+      "investments": "Serviços de Investimento",
+      "pension": "Fundos de Pensão"
+    },
+    "footer": {
+      "contact": "Contacte-nos",
+      "email": "Email: <a href=\"mailto:unitedbnk@support.com\">unitedbnk@support.com</a>",
+      "copyright": "&copy; 2026 United Bank. Todos os direitos reservados.",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço",
+      "contactLink": "Contacte-nos"
+    },
+    "signin": {
+      "title": "Inicie sessão na sua conta",
+      "username": "Nome de utilizador:",
+      "password": "Palavra-passe:",
+      "forgot": "Esqueceu-se da palavra-passe?",
+      "submit": "Iniciar sessão"
+    },
+    "signup": {
+      "title": "Criar uma conta",
+      "tagline": "Banca sem compromisso — a sua porta para segurança e crescimento.",
+      "email": "Email:",
+      "password": "Palavra-passe:",
+      "confirm": "Confirmar palavra-passe:",
+      "submit": "Registar-se",
+      "agreement": "Ao registar-se, concorda com os nossos <a href=\">Termos de Serviço</a> e <a href=\">Política de Privacidade</a>."
+    },
+    "transfer": {
+      "senderTitle": "Detalhes do Remetente",
+      "name": "Nome:",
+      "account": "Número de Conta:",
+      "mainBalance": "Saldo Principal:",
+      "savingsBalance": "Saldo Poupanças:",
+      "cardBalance": "Saldo do Cartão:",
+      "title": "Transferir Fundos",
+      "desc": "Envie dinheiro de forma segura para outra conta bancária.",
+      "fromAccount": "Escolher Conta",
+      "select": "Selecionar Conta",
+      "mainAcc": "Conta Principal",
+      "savingsAcc": "Conta Poupança",
+      "cardAcc": "Cartão",
+      "recipientBank": "Banco do Beneficiário",
+      "recipientName": "Nome do Beneficiário",
+      "recipientAccount": "Número de Conta do Beneficiário",
+      "amount": "Montante ($)",
+      "description": "Descrição",
+      "send": "Enviar",
+      "pending": "Transação pendente, à espera de aprovação"
+    },
+    "trans": {
+      "title": "Histórico de Transações",
+      "desc": "Veja toda a atividade da sua conta.",
+      "filter": "Filtrar Transações",
+      "allTypes": "Todos os Tipos",
+      "credit": "Crédito",
+      "debit": "Débito",
+      "allStatus": "Todos os Estados",
+      "completed": "Concluído",
+      "pending": "Pendente",
+      "failed": "Falhado",
+      "apply": "Aplicar Filtro",
+      "allTrans": "Todas as Transações"
+    },
+    "dashboard": {
+      "welcome": "Bem-vindo de volta",
+      "summary": "O seu resumo financeiro de um relance.",
+      "accountBal": "Saldo da Conta",
+      "savingsBal": "Saldo Poupanças",
+      "creditCard": "Cartão de Crédito",
+      "due": "vencimento",
+      "quickActions": "Ações Rápidas",
+      "transfer": "Transferir Fundos",
+      "payBills": "Pagar Contas",
+      "viewAccounts": "Ver Contas",
+      "recentTrans": "Transações Recentes"
+    },
+    "about": { "title": "Sobre a United Bank" },
+    "receipt": {
+      "headquarters": "Sede Corporativa",
+      "title": "RECIBO OFICIAL DE TRANSAÇÃO",
+      "subtitle": "Confirmação Gerada pelo Sistema",
+      "ref": "Referência de Transação:",
+      "email": "Email do Remetente:",
+      "fromAccount": "Da Conta:",
+      "recipientName": "Nome do Beneficiário:",
+      "recipientBank": "Banco do Beneficiário:",
+      "recipientAccount": "Conta do Beneficiário:",
+      "amount": "Montante:",
+      "description": "Descrição:",
+      "date": "Data e Hora:",
+      "status": "Estado:",
+      "signatory": "Signatário Autorizado",
+      "verified": "VERIFICADO DIGITALMENTE",
+      "legal": "Este documento é gerado eletronicamente pelo sistema bancário da United Bank. Não é necessária assinatura física. Se não autorizou esta transação, contacte o suporte imediatamente.",
+      "download": "Descarregar Recibo"
+    },
+    "admin": {
+      "dashboard": "Painel",
+      "users": "Utilizadores",
+      "transactions": "Transações",
+      "reports": "Relatórios",
+      "settings": "Definições",
+      "welcome": "Bem-vindo, Admin",
+      "overview": "Visão geral rápida do estado do sistema bancário."
+    },
+    "adminTrans": { "title": "Painel Admin - Todas as Transações" },
+    "userDetails": { "title": "Detalhes do Utilizador" },
+    "userList": { "title": "Todos os Utilizadores Registados", "desc": "Abaixo está a lista de todos os utilizadores do sistema." }
+  },
+
+  "pt-BR": {
+    "nav": {
+      "signin": "Entrar",
+      "signup": "Cadastrar-se",
+      "about": "Sobre nós",
+      "services": "Serviços",
+      "support": "Suporte",
+      "dashboard": "Painel",
+      "transactions": "Transações",
+      "transaction": "Transação",
+      "transfer": "Transferir",
+      "transfers": "Transferências",
+      "settings": "Configurações",
+      "logout": "Sair"
+    },
+    "lang": { "label": "Idioma:" },
+    "offers": {
+      "title": "O que oferecemos:",
+      "encryption": "Criptografia avançada para manter as transações seguras.",
+      "monitoring": "Monitoramento de fraude em tempo real com alertas instantâneos.",
+      "trackrecord": "Décadas de experiência comprovada no setor bancário.",
+      "network": "Rede global de agências/ATMs para fácil acesso.",
+      "service": "Atendimento 24/7 com gerentes dedicados.",
+      "advice": "Orientação financeira personalizada por especialistas certificados.",
+      "rewards": "Recompensas e benefícios exclusivos adaptados ao seu estilo de vida.",
+      "approvals": "Aprovações rápidas e onboarding simples para novas contas.",
+      "fees": "Taxas claras desde o início, sem cobranças ocultas."
+    },
+    "services": { "title": "Nossos serviços incluem:", "personal": "Banca Pessoal", "investments": "Serviços de Investimento", "pension": "Fundos de Pensão" },
+    "footer": { "contact": "Fale Conosco", "email": "Email: <a href=\"mailto:unitedbnk@support.com\">unitedbnk@support.com</a>", "copyright": "&copy; 2026 United Bank. Todos os direitos reservados.", "privacy": "Política de Privacidade", "terms": "Termos de Serviço", "contactLink": "Fale Conosco" },
+    "signin": { "title": "Acesse sua conta", "username": "Usuário:", "password": "Senha:", "forgot": "Esqueceu a senha?", "submit": "Entrar" },
+    "signup": { "title": "Criar uma Conta", "tagline": "Banco sem compromisso — seu caminho para segurança e crescimento.", "email": "Email:", "password": "Senha:", "confirm": "Confirmar Senha:", "submit": "Cadastrar-se", "agreement": "Ao se cadastrar, você concorda com nossos <a href=\">Termos de Serviço</a> e <a href=\">Política de Privacidade</a>." },
+    "transfer": { "senderTitle": "Dados do Remetente", "name": "Nome:", "account": "Número da Conta:", "mainBalance": "Saldo Principal:", "savingsBalance": "Saldo Poupança:", "cardBalance": "Saldo do Cartão:", "title": "Transferir Fundos", "desc": "Envie dinheiro com segurança para outra conta bancária.", "fromAccount": "Escolher Conta", "select": "Selecionar Conta", "mainAcc": "Conta Principal", "savingsAcc": "Conta Poupança", "cardAcc": "Cartão", "recipientBank": "Banco do Destinatário", "recipientName": "Nome do Destinatário", "recipientAccount": "Número da Conta do Destinatário", "amount": "Valor ($)", "description": "Descrição", "send": "Enviar", "pending": "Transação pendente, aguardando aprovação" },
+    "trans": { "title": "Histórico de Transações", "desc": "Veja todas as atividades da sua conta.", "filter": "Filtrar Transações", "allTypes": "Todos os Tipos", "credit": "Crédito", "debit": "Débito", "allStatus": "Todos os Status", "completed": "Concluído", "pending": "Pendente", "failed": "Falhou", "apply": "Aplicar Filtro", "allTrans": "Todas as Transações" },
+    "dashboard": { "welcome": "Bem-vindo de volta", "summary": "Seu resumo financeiro em um piscar de olhos.", "accountBal": "Saldo da Conta", "savingsBal": "Saldo Poupança", "creditCard": "Cartão de Crédito", "due": "vencimento", "quickActions": "Ações Rápidas", "transfer": "Transferir Fundos", "payBills": "Pagar Contas", "viewAccounts": "Ver Contas", "recentTrans": "Transações Recentes" },
+    "about": { "title": "Sobre United Bank" },
+    "receipt": { "headquarters": "Matriz", "title": "RECIBO OFICIAL DE TRANSAÇÃO", "subtitle": "Confirmação Gerada pelo Sistema", "ref": "Referência da Transação:", "email": "Email do Remetente:", "fromAccount": "Da Conta:", "recipientName": "Nome do Destinatário:", "recipientBank": "Banco do Destinatário:", "recipientAccount": "Conta do Destinatário:", "amount": "Valor:", "description": "Descrição:", "date": "Data e Hora:", "status": "Status:", "signatory": "Assinatura Autorizada", "verified": "VERIFICADO DIGITALMENTE", "legal": "Este documento é gerado eletronicamente pelo sistema bancário da United Bank. Não é necessária assinatura física. Se não autorizou esta transação, contate o suporte imediatamente.", "download": "Baixar Recibo" },
+    "admin": { "dashboard": "Painel", "users": "Usuários", "transactions": "Transações", "reports": "Relatórios", "settings": "Configurações", "welcome": "Bem-vindo, Admin", "overview": "Visão geral rápida do estado do sistema bancário." },
+    "adminTrans": { "title": "Painel Admin - Todas as Transações" },
+    "userDetails": { "title": "Detalhes do Usuário" },
+    "userList": { "title": "Todos os Usuários Registrados", "desc": "Abaixo está a lista de todos os usuários do sistema." }
+  },
+
+  pl: {
+    "nav": {
+      "signin": "Zaloguj się",
+      "signup": "Zarejestruj się",
+      "about": "O nas",
+      "services": "Usługi",
+      "support": "Wsparcie",
+      "dashboard": "Panel",
+      "transactions": "Transakcje",
+      "transaction": "Transakcja",
+      "transfer": "Przelew",
+      "transfers": "Przelewy",
+      "settings": "Ustawienia",
+      "logout": "Wyloguj"
+    },
+    "lang": { "label": "Język:" },
+    "offers": {
+      "title": "Co oferujemy:",
+      "encryption": "Zaawansowane szyfrowanie chroniące transakcje.",
+      "monitoring": "Monitorowanie oszustw w czasie rzeczywistym z natychmiastowymi alertami.",
+      "trackrecord": "Dziesięciolecia sprawdzonego doświadczenia w sektorze bankowym.",
+      "network": "Globalna sieć oddziałów/ATM dla łatwego dostępu.",
+      "service": "Obsługa klienta 24/7 z dedykowanymi menedżerami.",
+      "advice": "Spersonalizowane porady finansowe od certyfikowanych ekspertów.",
+      "rewards": "Ekskluzywne nagrody i korzyści dopasowane do stylu życia.",
+      "approvals": "Szybkie zatwierdzenia i proste rozpoczęcie dla nowych kont.",
+      "fees": "Przejrzyste opłaty z góry, bez ukrytych kosztów."
+    },
+    "services": { "title": "Nasze usługi obejmują:", "personal": "Bankowość osobista", "investments": "Usługi inwestycyjne", "pension": "Fundusze emerytalne" },
+    "footer": { "contact": "Skontaktuj się", "email": "Email: <a href=\"mailto:unitedbnk@support.com\">unitedbnk@support.com</a>", "copyright": "&copy; 2026 United Bank. Wszelkie prawa zastrzeżone.", "privacy": "Polityka prywatności", "terms": "Warunki usługi", "contactLink": "Skontaktuj się" },
+    "signin": { "title": "Zaloguj się na swoje konto", "username": "Nazwa użytkownika:", "password": "Hasło:", "forgot": "Zapomniałeś hasła?", "submit": "Zaloguj" },
+    "signup": { "title": "Załóż konto", "tagline": "Bankowość bez kompromisów — Twój dostęp do bezpieczeństwa i wzrostu.", "email": "Email:", "password": "Hasło:", "confirm": "Potwierdź hasło:", "submit": "Zarejestruj się", "agreement": "Rejestrując się zgadzasz się z naszymi <a href=\">Warunkami usługi</a> i <a href=\">Polityką prywatności</a>." },
+    "transfer": { "senderTitle": "Dane nadawcy", "name": "Imię i nazwisko:", "account": "Numer konta:", "mainBalance": "Saldo główne:", "savingsBalance": "Saldo oszczędności:", "cardBalance": "Saldo karty:", "title": "Przelew środków", "desc": "Wyślij pieniądze bezpiecznie na inne konto bankowe.", "fromAccount": "Wybierz konto", "select": "Wybierz konto", "mainAcc": "Konto główne", "savingsAcc": "Konto oszczędnościowe", "cardAcc": "Karta", "recipientBank": "Bank odbiorcy", "recipientName": "Imię odbiorcy", "recipientAccount": "Numer konta odbiorcy", "amount": "Kwota ($)", "description": "Opis", "send": "Wyślij", "pending": "Transakcja w toku, oczekuje na zatwierdzenie" },
+    "trans": { "title": "Historia transakcji", "desc": "Zobacz całą aktywność swojego konta.", "filter": "Filtruj transakcje", "allTypes": "Wszystkie typy", "credit": "Kredyt", "debit": "Debet", "allStatus": "Wszystkie statusy", "completed": "Zakończone", "pending": "Oczekujące", "failed": "Nieudane", "apply": "Zastosuj filtr", "allTrans": "Wszystkie transakcje" },
+    "dashboard": { "welcome": "Witamy ponownie", "summary": "Twoje podsumowanie finansowe w skrócie.", "accountBal": "Saldo konta", "savingsBal": "Saldo oszczędności", "creditCard": "Karta kredytowa", "due": "należne", "quickActions": "Szybkie akcje", "transfer": "Przelej środki", "payBills": "Opłać rachunki", "viewAccounts": "Pokaż konta", "recentTrans": "Ostatnie transakcje" },
+    "about": { "title": "O United Bank" },
+    "receipt": { "headquarters": "Siedziba", "title": "OFICJALNY POKWITOWANIE TRANSAKCJI", "subtitle": "Potwierdzenie wygenerowane systemowo", "ref": "Referencja transakcji:", "email": "Email nadawcy:", "fromAccount": "Z konta:", "recipientName": "Nazwa odbiorcy:", "recipientBank": "Bank odbiorcy:", "recipientAccount": "Konto odbiorcy:", "amount": "Kwota:", "description": "Opis:", "date": "Data i godzina:", "status": "Status:", "signatory": "Upoważniony podpis", "verified": "ZWERYFIKOWANE CYFROWO", "legal": "Ten dokument jest generowany elektronicznie przez system bankowy United Bank. Nie jest wymagana podpis fizyczny. Jeśli nie autoryzowałeś tej transakcji, skontaktuj się z obsługą klienta natychmiast.", "download": "Pobierz potwierdzenie" },
+    "admin": { "dashboard": "Panel", "users": "Użytkownicy", "transactions": "Transakcje", "reports": "Raporty", "settings": "Ustawienia", "welcome": "Witamy, Administrator", "overview": "Szybki przegląd stanu systemu bankowego." },
+    "adminTrans": { "title": "Panel Admin - Wszystkie transakcje" },
+    "userDetails": { "title": "Szczegóły użytkownika" },
+    "userList": { "title": "Wszyscy zarejestrowani użytkownicy", "desc": "Poniżej lista wszystkich użytkowników w systemie." }
+  },
+
+  de: {
+    "nav": {
+      "signin": "Anmelden",
+      "signup": "Registrieren",
+      "about": "Über uns",
+      "services": "Dienstleistungen",
+      "support": "Support",
+      "dashboard": "Übersicht",
+      "transactions": "Transaktionen",
+      "transaction": "Transaktion",
+      "transfer": "Überweisen",
+      "transfers": "Überweisungen",
+      "settings": "Einstellungen",
+      "logout": "Abmelden"
+    },
+    "lang": { "label": "Sprache:" },
+    "offers": {
+      "title": "Unser Angebot:",
+      "encryption": "Fortschrittliche Verschlüsselung zum Schutz von Transaktionen.",
+      "monitoring": "Echtzeit-Fraud-Monitoring mit sofortigen Warnungen.",
+      "trackrecord": "Jahrzehntelange nachgewiesene Erfahrung in der Bankenbranche.",
+      "network": "Globales Netz aus Filialen/ATMs für einfachen Zugang.",
+      "service": "24/7-Kundendienst mit persönlichen Betreuern.",
+      "advice": "Personalisierte Finanzberatung durch zertifizierte Experten.",
+      "rewards": "Exklusive Prämien & Vorteile, abgestimmt auf Ihren Lebensstil.",
+      "approvals": "Schnelle Genehmigungen & einfache Kontoeröffnung.",
+      "fees": "Klare, transparente Gebühren ohne versteckte Kosten."
+    },
+    "services": { "title": "Unsere Dienstleistungen umfassen:", "personal": "Privatkundengeschäft", "investments": "Investmentdienstleistungen", "pension": "Pensionsfonds" },
+    "footer": { "contact": "Kontakt", "email": "Email: <a href=\"mailto:unitedbnk@support.com\">unitedbnk@support.com</a>", "copyright": "&copy; 2026 United Bank. Alle Rechte vorbehalten.", "privacy": "Datenschutz", "terms": "Nutzungsbedingungen", "contactLink": "Kontakt" },
+    "signin": { "title": "Melden Sie sich bei Ihrem Konto an", "username": "Benutzername:", "password": "Passwort:", "forgot": "Passwort vergessen?", "submit": "Anmelden" },
+    "signup": { "title": "Ein Konto erstellen", "tagline": "Banking ohne Kompromisse — Ihr Zugang zu Sicherheit und Wachstum.", "email": "Email:", "password": "Passwort:", "confirm": "Passwort bestätigen:", "submit": "Registrieren", "agreement": "Mit der Registrierung stimmen Sie unseren <a href=\">Nutzungsbedingungen</a> und der <a href=\">Datenschutzerklärung</a> zu." },
+    "transfer": { "senderTitle": "Absenderdetails", "name": "Name:", "account": "Kontonummer:", "mainBalance": "Hauptguthaben:", "savingsBalance": "Sparguthaben:", "cardBalance": "Kartenkonto:", "title": "Geld überweisen", "desc": "Senden Sie Geld sicher an ein anderes Bankkonto.", "fromAccount": "Konto wählen", "select": "Konto auswählen", "mainAcc": "Hauptkonto", "savingsAcc": "Sparkonto", "cardAcc": "Karte", "recipientBank": "Empfängerbank", "recipientName": "Empfängername", "recipientAccount": "Empfängerkontonummer", "amount": "Betrag ($)", "description": "Beschreibung", "send": "Senden", "pending": "Transaktion ausstehend, wartet auf Genehmigung" },
+    "trans": { "title": "Transaktionsverlauf", "desc": "Sehen Sie alle Aktivitäten Ihres Kontos.", "filter": "Transaktionen filtern", "allTypes": "Alle Typen", "credit": "Gutschrift", "debit": "Belastung", "allStatus": "Alle Status", "completed": "Abgeschlossen", "pending": "Ausstehend", "failed": "Fehlgeschlagen", "apply": "Filter anwenden", "allTrans": "Alle Transaktionen" },
+    "dashboard": { "welcome": "Willkommen zurück", "summary": "Ihre finanzielle Übersicht auf einen Blick.", "accountBal": "Kontostand", "savingsBal": "Sparguthaben", "creditCard": "Kreditkarte", "due": "fällig", "quickActions": "Schnellaktionen", "transfer": "Geld überweisen", "payBills": "Rechnungen bezahlen", "viewAccounts": "Konten anzeigen", "recentTrans": "Letzte Transaktionen" },
+    "about": { "title": "Über United Bank" },
+    "receipt": { "headquarters": "Hauptsitz", "title": "OFFIZIELLER TRANSAKTIONSBELEG", "subtitle": "Systemgenerierte Bestätigung", "ref": "Transaktionsreferenz:", "email": "Absender Email:", "fromAccount": "Von Konto:", "recipientName": "Empfängername:", "recipientBank": "Empfängerbank:", "recipientAccount": "Empfängerkonto:", "amount": "Betrag:", "description": "Beschreibung:", "date": "Datum & Uhrzeit:", "status": "Status:", "signatory": "Bevollmächtigter Unterzeichner", "verified": "DIGITAL VERIFIZIERT", "legal": "Dieses Dokument wurde elektronisch vom Kernbankensystem der United Bank erzeugt. Keine physische Unterschrift erforderlich. Falls Sie diese Transaktion nicht autorisiert haben, kontaktieren Sie sofort den Kundensupport.", "download": "Beleg herunterladen" },
+    "admin": { "dashboard": "Übersicht", "users": "Benutzer", "transactions": "Transaktionen", "reports": "Berichte", "settings": "Einstellungen", "welcome": "Willkommen, Admin", "overview": "Kurzübersicht zum Systemstatus der Bank." },
+    "adminTrans": { "title": "Admin-Bereich - Alle Transaktionen" },
+    "userDetails": { "title": "Benutzerdetails" },
+    "userList": { "title": "Alle registrierten Benutzer", "desc": "Unten ist die Liste aller Benutzer im System." }
   }
 };
 
@@ -515,7 +788,10 @@ function getLangFromCountryCode(cc) {
     ca: 'fr',
     us: 'en',
     gb: 'en',
-    de: 'de' // future
+    de: 'de',
+    pt: 'pt',
+    br: 'pt-BR',
+    pl: 'pl'
   };
   return map[cc] || 'en';
 }
