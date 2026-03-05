@@ -509,9 +509,13 @@ app.delete("/admin/delete-user/:email", async (req, res) => {
   const email = req.params.email;
 
   try {
+    // delete related data first
+    await db.query("DELETE FROM transactions WHERE email=$1", [email]);
+    await db.query("DELETE FROM messages WHERE sender=$1 OR receiver=$1", [email]);
+    await db.query("DELETE FROM user_profile WHERE email=$1", [email]);
 
-    const result = await pool.query(
-      `DELETE FROM users WHERE email = $1 and role != 'admin'`, 
+    const result = await db.query(
+      `DELETE FROM users WHERE email = $1`, 
       [email]
     );
 
@@ -601,7 +605,7 @@ app.post("/admin/update-transaction", async (req, res) => {
         if (action === "approve") {
           if (transaction.type === "credit") {
             await db.query(
-              "UPDATE users_profile SET account_balance = account_balance + $1 WHERE email = $2",
+              "UPDATE user_profile SET account_balance = account_balance + $1 WHERE email = $2",
               [transaction.amount, transaction.email]
             );
           }
@@ -937,8 +941,6 @@ app.get("/api/receipt/:transactionRef/pdf", async (req, res) => {
     res.status(500).json({ success: false, message: "PDF generation failed" });
   }
 });
-
-
 
 
 // serve receipt page for any transaction reference (so links like /receipt/XYZ work)
