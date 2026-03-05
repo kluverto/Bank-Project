@@ -125,6 +125,16 @@
       </div>
     </section>
 
+    <div class="delete-user-container">
+      <h3>Delete User</h3>
+      <select id="deleteUserSelect">
+        <option value="">-- Select a user --</option>
+      </select>
+      <button id="deleteUserBtn" style="background:red;color:white;">
+        Delete User
+      </button>
+    </div>
+
     <section class="recent-activity">
       <h3>Recent User Activity</h3>
       <table>
@@ -197,11 +207,16 @@
         const data = await res.json();
         if (data.success) {
           const select = document.querySelector(".selectUser");
+          const deleteSelect = document.getElementById("deleteUserSelect");
           data.users.forEach(user => {
             const option = document.createElement("option");
             option.value = user.email;
             option.textContent = `${user.firstname} ${user.secondname} (${user.email})`;
             select.appendChild(option);
+            const deleteOption = document.createElement("option");
+            deleteOption.value = user.email;
+            deleteOption.textContent = `${user.firstname} ${user.secondname} (${user.email})`;
+            deleteSelect.appendChild(deleteOption);
           });
         }
       } catch (err) {
@@ -296,6 +311,42 @@
         console.error("Error creating user:", err);
         alert("❌ Server error");
       }
+    });
+
+    //delete users
+    document.getElementById("deleteUserBtn").addEventListener("click", async () => {
+
+      const email = document.getElementById("deleteUserSelect").value;
+
+      if (!email) {
+        alert("Please select a user");
+        return;
+      }
+
+      if (!confirm("Are you sure you want to delete this user? This cannot be undone.")) {
+        return;
+      }
+
+      try {
+
+        const res = await fetch(`/admin/delete-user/${encodeURIComponent(email)}`, {
+          method: "DELETE"
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert("User deleted successfully");
+          location.reload();
+        } else {
+          alert("Error: " + data.message);
+        }
+
+      } catch (err) {
+        console.error("Delete error:", err);
+        alert("Server error");
+      }
+
     });
 
 

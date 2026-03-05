@@ -503,6 +503,40 @@ app.get("/admin/recent-transactions", async (req, res) => {
   }
 });
 
+//admin delete user
+app.delete("/admin/delete-user/:email", async (req, res) => {
+
+  const email = req.params.email;
+
+  try {
+
+    const result = await pool.query(
+      `DELETE FROM users WHERE email = $1 and role != 'admin'`, 
+      [email]
+    );
+
+    if (result.rowCount === 0) {
+      return res.json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "User deleted successfully"
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Database error"
+    });
+  }
+
+});
+
 // Admin get all transactions
 app.get("/admin/all-transactions", async (req, res) => {
   try {
